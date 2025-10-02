@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../data/models/recommendation/recommendation_model.dart';
 import '../../../config/constants/string_constants.dart';
 import '../../../config/theme/text_styles.dart';
 import '../../../config/constants/asset_constants.dart';
 import '../../common/widgets/voice_button.dart';
 
-class RecommendationCard extends StatelessWidget {
+class RecommendationCard extends ConsumerWidget {
   final RecommendationModel recommendation;
   final VoidCallback onCompleted;
 
@@ -16,7 +18,9 @@ class RecommendationCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Card(
       elevation: 2,
       child: Container(
@@ -93,9 +97,9 @@ class RecommendationCard extends StatelessWidget {
                   const SizedBox(width: 12),
                   TextButton(
                     onPressed: () {
-                      // Navigate to task details
+                      Navigator.pushNamed(context, '/recommendations');
                     },
-                    child: Text(StringConstants.viewDetails),
+                    child: Text(l10n.viewDetails),
                   ),
                 ],
               ),

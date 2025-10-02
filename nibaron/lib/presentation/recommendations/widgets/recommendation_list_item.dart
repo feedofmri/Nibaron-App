@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audioplayers/audioplayers.dart';
 import '../../../data/models/recommendation/recommendation_model.dart';
-import '../../../config/constants/string_constants.dart';
 import '../../../config/theme/text_styles.dart';
 
-class RecommendationListItem extends StatefulWidget {
+class RecommendationListItem extends ConsumerStatefulWidget {
   final RecommendationModel recommendation;
   final VoidCallback onCompleted;
   final Function(int rating, String? feedback) onRate;
@@ -17,14 +18,13 @@ class RecommendationListItem extends StatefulWidget {
   });
 
   @override
-  State<RecommendationListItem> createState() => _RecommendationListItemState();
+  ConsumerState<RecommendationListItem> createState() => _RecommendationListItemState();
 }
 
-class _RecommendationListItemState extends State<RecommendationListItem>
-    with SingleTickerProviderStateMixin {
+class _RecommendationListItemState extends ConsumerState<RecommendationListItem>
+    with TickerProviderStateMixin {
   late AnimationController _animationController;
-  late Animation<double> _fadeAnimation;
-  final AudioPlayer _audioPlayer = AudioPlayer();
+  late AudioPlayer _audioPlayer;
   bool _isPlaying = false;
 
   @override
@@ -34,13 +34,7 @@ class _RecommendationListItemState extends State<RecommendationListItem>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    _fadeAnimation = Tween<double>(begin: 1.0, end: 0.5).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
-    );
-
-    if (widget.recommendation.isCompleted) {
-      _animationController.forward();
-    }
+    _audioPlayer = AudioPlayer();
   }
 
   @override
@@ -52,259 +46,98 @@ class _RecommendationListItemState extends State<RecommendationListItem>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _fadeAnimation,
-      builder: (context, child) {
-        return Opacity(
-          opacity: _fadeAnimation.value,
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: _getPriorityColor().withOpacity(0.3),
-                width: 1.5,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header with priority and category
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: _getPriorityColor().withOpacity(0.1),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      _buildCategoryIcon(),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.recommendation.title,
-                              style: TextStyles.headline3.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                _buildPriorityChip(),
-                                const SizedBox(width: 8),
-                                _buildCategoryChip(),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (widget.recommendation.isCompleted)
-                        Icon(
-                          Icons.check_circle,
-                          color: Colors.green[600],
-                          size: 24,
-                        ),
-                    ],
-                  ),
-                ),
+    final l10n = AppLocalizations.of(context)!;
 
-                // Content
-                Padding(
-                  padding: const EdgeInsets.all(16),
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header with priority and category
+            Row(
+              children: [
+                _buildCategoryIcon(),
+                const SizedBox(width: 8),
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.recommendation.description,
-                        style: TextStyles.bodyMedium.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
+                        widget.recommendation.title,
+                        style: TextStyles.headline3.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
-                      const SizedBox(height: 12),
-
-                      // Date and expiry info
-                      Wrap(
-                        spacing: 12,
-                        runSpacing: 4,
+                      const SizedBox(height: 4),
+                      Row(
                         children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.schedule,
-                                size: 16,
-                                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                              ),
-                              const SizedBox(width: 4),
-                              Flexible(
-                                child: Text(
-                                  _formatDate(widget.recommendation.recommendedDate),
-                                  style: TextStyles.bodySmall.copyWith(
-                                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          if (widget.recommendation.expiryDate != null)
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.warning,
-                                  size: 16,
-                                  color: Colors.orange[600],
-                                ),
-                                const SizedBox(width: 4),
-                                Flexible(
-                                  child: Text(
-                                    'মেয়াদ: ${_formatDate(widget.recommendation.expiryDate!)}',
-                                    style: TextStyles.bodySmall.copyWith(
-                                      color: Colors.orange[600],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          _buildPriorityChip(),
+                          const SizedBox(width: 8),
+                          _buildCategoryChip(context, l10n),
                         ],
                       ),
-
-                      // Completion info
-                      if (widget.recommendation.isCompleted && widget.recommendation.completedAt != null) ...[
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.check_circle,
-                              size: 16,
-                              color: Colors.green[600],
-                            ),
-                            const SizedBox(width: 4),
-                            Flexible(
-                              child: Text(
-                                'সম্পন্ন: ${_formatDate(widget.recommendation.completedAt!)}',
-                                style: TextStyles.bodySmall.copyWith(
-                                  color: Colors.green[600],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-
-                      // Rating display
-                      if (widget.recommendation.rating != null) ...[
-                        const SizedBox(height: 8),
-                        Wrap(
-                          spacing: 8,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: List.generate(5, (index) {
-                                return Icon(
-                                  index < widget.recommendation.rating!
-                                      ? Icons.star
-                                      : Icons.star_border,
-                                  size: 16,
-                                  color: Colors.amber[600],
-                                );
-                              }),
-                            ),
-                            if (widget.recommendation.userFeedback?.isNotEmpty == true)
-                              Flexible(
-                                child: Text(
-                                  widget.recommendation.userFeedback!,
-                                  style: TextStyles.bodySmall.copyWith(
-                                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                          ],
-                        ),
-                      ],
                     ],
                   ),
                 ),
-
-                // Action buttons
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(16),
-                      bottomRight: Radius.circular(16),
-                    ),
+                if (widget.recommendation.isCompleted)
+                  Icon(
+                    Icons.check_circle,
+                    color: Colors.green[600],
+                    size: 24,
                   ),
-                  child: Row(
-                    children: [
-                      // Audio button
-                      if (widget.recommendation.audioUrl != null)
-                        IconButton(
-                          onPressed: _toggleAudio,
-                          icon: Icon(
-                            _isPlaying ? Icons.pause_circle : Icons.play_circle,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          tooltip: StringConstants.listen,
-                        ),
-
-                      const Spacer(),
-
-                      // Rate button (for completed tasks)
-                      if (widget.recommendation.isCompleted && widget.recommendation.rating == null)
-                        TextButton.icon(
-                          onPressed: _showRatingDialog,
-                          icon: const Icon(Icons.star_rate, size: 18),
-                          label: const Text('রেটিং দিন'),
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.amber[600],
-                          ),
-                        ),
-
-                      // Complete button
-                      if (!widget.recommendation.isCompleted) ...[
-                        const SizedBox(width: 8),
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            _animationController.forward();
-                            widget.onCompleted();
-                          },
-                          icon: const Icon(Icons.check, size: 18),
-                          label: Text(StringConstants.markAsDone),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).colorScheme.primary,
-                            foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
               ],
             ),
-          ),
-        );
-      },
+
+            const SizedBox(height: 12),
+
+            // Description
+            Text(
+              widget.recommendation.description,
+              style: TextStyles.bodyMedium.copyWith(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            // Action buttons
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Audio button
+                if (widget.recommendation.audioUrl != null)
+                  IconButton(
+                    onPressed: _toggleAudio,
+                    icon: Icon(
+                      _isPlaying ? Icons.pause_circle : Icons.play_circle,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    tooltip: l10n.listen,
+                  ),
+
+                const Spacer(),
+
+                // Complete button
+                if (!widget.recommendation.isCompleted) ...[
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      _animationController.forward();
+                      widget.onCompleted();
+                    },
+                    icon: const Icon(Icons.check, size: 16),
+                    label: Text(l10n.markAsDone),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -349,28 +182,29 @@ class _RecommendationListItemState extends State<RecommendationListItem>
   }
 
   Widget _buildPriorityChip() {
+    final l10n = AppLocalizations.of(context)!;
     String label;
     Color color;
 
     switch (widget.recommendation.priority) {
       case 'critical':
-        label = 'জরুরি';
+        label = l10n.critical;
         color = Colors.red[600]!;
         break;
       case 'high':
-        label = 'উচ্চ';
+        label = l10n.high;
         color = Colors.orange[600]!;
         break;
       case 'medium':
-        label = 'মাঝারি';
+        label = l10n.medium;
         color = Colors.blue[600]!;
         break;
       case 'low':
-        label = 'কম';
+        label = l10n.low;
         color = Colors.green[600]!;
         break;
       default:
-        label = 'সাধারণ';
+        label = l10n.general;
         color = Colors.grey[600]!;
     }
 
@@ -391,24 +225,24 @@ class _RecommendationListItemState extends State<RecommendationListItem>
     );
   }
 
-  Widget _buildCategoryChip() {
+  Widget _buildCategoryChip(BuildContext context, AppLocalizations l10n) {
     String label;
 
     switch (widget.recommendation.category) {
       case 'irrigation':
-        label = StringConstants.irrigation;
+        label = l10n.irrigation;
         break;
       case 'fertilizer':
-        label = StringConstants.fertilizer;
+        label = l10n.fertilizer;
         break;
       case 'pestControl':
-        label = StringConstants.pesticide;
+        label = l10n.pesticide;
         break;
       case 'harvest':
-        label = 'ফসল কাটা';
+        label = l10n.harvestTime;
         break;
       case 'planting':
-        label = 'রোপণ';
+        label = l10n.planting;
         break;
       default:
         label = 'সাধারণ';
@@ -427,37 +261,6 @@ class _RecommendationListItemState extends State<RecommendationListItem>
         ),
       ),
     );
-  }
-
-  Color _getPriorityColor() {
-    switch (widget.recommendation.priority) {
-      case 'critical':
-        return Colors.red[600]!;
-      case 'high':
-        return Colors.orange[600]!;
-      case 'medium':
-        return Colors.blue[600]!;
-      case 'low':
-        return Colors.green[600]!;
-      default:
-        return Colors.grey[600]!;
-    }
-  }
-
-  String _formatDate(DateTime date) {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final dateToCheck = DateTime(date.year, date.month, date.day);
-
-    if (dateToCheck == today) {
-      return 'আজ ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
-    } else if (dateToCheck == today.subtract(const Duration(days: 1))) {
-      return 'গতকাল ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
-    } else if (dateToCheck == today.add(const Duration(days: 1))) {
-      return 'আগামীকাল ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
-    } else {
-      return '${date.day}/${date.month}/${date.year}';
-    }
   }
 
   Future<void> _toggleAudio() async {
@@ -517,12 +320,14 @@ class _RatingDialogState extends State<RatingDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return AlertDialog(
-      title: const Text('পরামর্শের মূল্যায়ন করুন'),
+      title: Text(l10n.rateRecommendation),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('এই পরামর্শটি কতটা কার্যকর ছিল?'),
+          Text(l10n.howEffectiveWasThis),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -540,10 +345,10 @@ class _RatingDialogState extends State<RatingDialog> {
           const SizedBox(height: 16),
           TextField(
             controller: _feedbackController,
-            decoration: const InputDecoration(
-              labelText: 'মতামত (ঐচ্ছিক)',
-              hintText: 'আপনার অভিজ্ঞতা শেয়ার করুন...',
-              border: OutlineInputBorder(),
+            decoration: InputDecoration(
+              labelText: l10n.feedbackOptional,
+              hintText: l10n.shareYourExperience,
+              border: const OutlineInputBorder(),
             ),
             maxLines: 3,
           ),
@@ -552,7 +357,7 @@ class _RatingDialogState extends State<RatingDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(StringConstants.cancel),
+          child: Text(l10n.cancel),
         ),
         ElevatedButton(
           onPressed: _rating > 0
@@ -562,7 +367,7 @@ class _RatingDialogState extends State<RatingDialog> {
                   Navigator.of(context).pop();
                 }
               : null,
-          child: const Text('জমা দিন'),
+          child: Text(l10n.submit),
         ),
       ],
     );

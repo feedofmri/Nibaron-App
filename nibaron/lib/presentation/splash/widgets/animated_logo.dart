@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import '../../../config/constants/asset_constants.dart';
+import '../../../config/theme/app_colors.dart';
 
 class AnimatedLogo extends StatefulWidget {
   const AnimatedLogo({super.key});
@@ -57,45 +56,41 @@ class _AnimatedLogoState extends State<AnimatedLogo>
         return Transform.scale(
           scale: _scaleAnimation.value,
           child: Transform.rotate(
-            angle: _rotationAnimation.value * 0.1,
+            angle: _rotationAnimation.value * 0.1, // Subtle rotation
             child: Container(
               width: 120,
               height: 120,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(24),
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.primary,
+                    AppColors.secondary,
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(30),
                 boxShadow: [
                   BoxShadow(
-                    color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                    color: AppColors.primary.withOpacity(0.3),
                     blurRadius: 20,
-                    spreadRadius: 5,
-                    offset: const Offset(0, 8),
+                    offset: const Offset(0, 10),
                   ),
                 ],
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: Image.asset(
-                  AssetConstants.logo,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    // Fallback to a simple container with app initial
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'নি',
-                          style: TextStyle(
-                            fontSize: 48,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
+                borderRadius: BorderRadius.circular(30),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  child: Image.asset(
+                    'assets/images/nibaron_icon.png',
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(
+                        Icons.agriculture_rounded,
+                        size: 60,
+                        color: Colors.white,
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

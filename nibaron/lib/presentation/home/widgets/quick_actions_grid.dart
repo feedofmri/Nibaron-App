@@ -1,39 +1,42 @@
 import 'package:flutter/material.dart';
-import '../../../config/constants/string_constants.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../config/routes/app_routes.dart';
 import 'quick_action_button.dart';
 
-class QuickActionsGrid extends StatelessWidget {
+class QuickActionsGrid extends ConsumerWidget {
   const QuickActionsGrid({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+
     return GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 12,
-      crossAxisSpacing: 12,
       childAspectRatio: 1.2,
+      crossAxisSpacing: 12,
+      mainAxisSpacing: 12,
       children: [
         QuickActionButton(
-          icon: Icons.calendar_today_outlined,
-          title: StringConstants.calendar,
+          icon: Icons.wb_sunny,
+          title: l10n.weather,
+          onTap: () => Navigator.pushNamed(context, AppRoutes.weather),
+        ),
+        QuickActionButton(
+          icon: Icons.calendar_today,
+          title: l10n.calendar,
           onTap: () => Navigator.pushNamed(context, AppRoutes.calendar),
         ),
         QuickActionButton(
-          icon: Icons.lightbulb_outline,
-          title: StringConstants.recommendations,
-          onTap: () => Navigator.pushNamed(context, AppRoutes.recommendations),
-        ),
-        QuickActionButton(
-          icon: Icons.support_agent_outlined,
-          title: StringConstants.support,
+          icon: Icons.support_agent,
+          title: l10n.support,
           onTap: () => Navigator.pushNamed(context, AppRoutes.support),
         ),
         QuickActionButton(
-          icon: Icons.history_outlined,
-          title: StringConstants.actionLog,
+          icon: Icons.history,
+          title: l10n.actionLog,
           onTap: () => Navigator.pushNamed(context, AppRoutes.actionLog),
         ),
       ],

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../view_models/recommendations_view_model.dart';
 import '../widgets/recommendation_filter_chips.dart';
 import '../widgets/recommendation_search_bar.dart';
 import '../widgets/recommendation_list_item.dart';
-import '../../../config/constants/string_constants.dart';
 import '../../../config/theme/text_styles.dart';
 
 class RecommendationsScreen extends ConsumerWidget {
@@ -12,11 +12,12 @@ class RecommendationsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final state = ref.watch(recommendationsViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(StringConstants.cropCareRecommendations),
+        title: Text(l10n.cropCareRecommendations),
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
@@ -121,7 +122,7 @@ class RecommendationsScreen extends ConsumerWidget {
                             onPressed: () => ref
                                 .read(recommendationsViewModelProvider.notifier)
                                 .refresh(),
-                            child: Text(StringConstants.retry),
+                            child: Text(l10n.retry),
                           ),
                         ],
                       ),

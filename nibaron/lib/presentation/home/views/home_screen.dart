@@ -9,6 +9,7 @@ import '../widgets/quick_actions_grid.dart';
 import '../widgets/refresh_indicator_custom.dart';
 import '../../../config/constants/string_constants.dart';
 import '../../../config/theme/text_styles.dart';
+import '../../../config/constants/asset_constants.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -36,30 +37,42 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         elevation: 0,
         automaticallyImplyLeading: false,
         title: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                gradient: LinearGradient(
-                  colors: [
-                    Theme.of(context).colorScheme.primary,
-                    Theme.of(context).colorScheme.secondary,
-                  ],
-                ),
-              ),
-              child: const Icon(
-                Icons.agriculture,
-                color: Colors.white,
-                size: 20,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.asset(
+                AssetConstants.nibaronIcon,
+                width: 38,
+                height: 38,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: 38,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Theme.of(context).colorScheme.primary,
+                          Theme.of(context).colorScheme.secondary,
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.agriculture,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  );
+                },
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 12),
             Text(
               StringConstants.appName,
               style: TextStyles.headline3.copyWith(
-                color: Theme.of(context).colorScheme.primary,
+                color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),

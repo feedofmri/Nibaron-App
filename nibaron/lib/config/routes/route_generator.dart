@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'app_routes.dart';
 import '../../presentation/splash/views/splash_screen.dart';
+import '../../presentation/onboarding/views/language_selection_screen.dart';
+import '../../presentation/onboarding/views/onboarding_slides_screen.dart';
 import '../../presentation/onboarding/views/onboarding_screen.dart';
 import '../../presentation/onboarding/views/registration_screen.dart';
 import '../../presentation/onboarding/views/otp_verification_screen.dart';
@@ -29,6 +31,12 @@ class RouteGenerator {
       // Authentication & Onboarding Routes
       case AppRoutes.splash:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
+
+      case AppRoutes.languageSelection:
+        return MaterialPageRoute(builder: (_) => const LanguageSelectionScreen());
+
+      case AppRoutes.onboardingSlides:
+        return MaterialPageRoute(builder: (_) => const OnboardingSlidesScreen());
 
       case AppRoutes.onboarding:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());

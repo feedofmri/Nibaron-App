@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../config/theme/app_colors.dart';
-import '../../../config/constants/string_constants.dart';
 import '../../home/views/home_screen.dart';
 import '../../calendar/views/calendar_screen.dart';
 import '../../recommendations/views/recommendations_screen.dart';
@@ -23,6 +23,8 @@ class MainNavigationScreen extends ConsumerWidget {
       const ActionLogScreen(),
       const ProfileScreen(),
     ];
+
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: IndexedStack(
@@ -59,23 +61,23 @@ class MainNavigationScreen extends ConsumerWidget {
           items: [
             BottomNavigationBarItem(
               icon: _buildNavIcon(Icons.home_outlined, Icons.home, 0, currentIndex),
-              label: StringConstants.home,
+              label: l10n.home,
             ),
             BottomNavigationBarItem(
               icon: _buildNavIcon(Icons.calendar_today_outlined, Icons.calendar_today, 1, currentIndex),
-              label: StringConstants.calendar,
+              label: l10n.calendar,
             ),
             BottomNavigationBarItem(
               icon: _buildNavIcon(Icons.lightbulb_outline, Icons.lightbulb, 2, currentIndex),
-              label: StringConstants.recommendations,
+              label: l10n.recommendations,
             ),
             BottomNavigationBarItem(
               icon: _buildNavIcon(Icons.assignment_outlined, Icons.assignment, 3, currentIndex),
-              label: StringConstants.actionLog,
+              label: l10n.actionLog,
             ),
             BottomNavigationBarItem(
               icon: _buildNavIcon(Icons.person_outline, Icons.person, 4, currentIndex),
-              label: StringConstants.profile,
+              label: l10n.profile,
             ),
           ],
         ),

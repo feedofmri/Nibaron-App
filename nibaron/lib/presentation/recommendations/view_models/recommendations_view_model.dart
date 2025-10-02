@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/models/recommendation/recommendation_model.dart';
-import '../../../config/constants/string_constants.dart';
 
 enum RecommendationFilter { all, today, thisWeek, upcoming, completed }
 enum RecommendationCategory { all, irrigation, fertilizer, pestControl, harvest, planting }
@@ -129,7 +128,7 @@ class RecommendationsViewModel extends StateNotifier<RecommendationsState> {
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        error: StringConstants.errorGeneric,
+        error: 'কিছু ভুল হয়েছে', // Use Bengali error message directly
       );
     }
   }

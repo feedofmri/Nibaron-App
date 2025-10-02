@@ -1,62 +1,70 @@
 import 'package:flutter/material.dart';
-import '../../../config/constants/string_constants.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SupportScreen extends StatelessWidget {
+class SupportScreen extends ConsumerWidget {
   const SupportScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(StringConstants.supportCenter),
+        title: Text(l10n.supportCenter),
       ),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.phone,
-                      size: 48,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      StringConstants.connectToHotline,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      StringConstants.yourFarmInfoWillBeShared,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
+        children: [
+          // Emergency Hotline Card
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.phone, color: Colors.red[600]),
+                      const SizedBox(width: 12),
+                      Text(
+                        l10n.connectToHotline,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      textAlign: TextAlign.center,
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.yourFarmInfoWillBeShared,
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 14,
                     ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
                       onPressed: () {
-                        // Call hotline logic
+                        // Handle hotline call
                       },
-                      child: Text(StringConstants.callNow),
+                      icon: const Icon(Icons.phone),
+                      label: Text(l10n.callNow),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red[600],
+                        foregroundColor: Colors.white,
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: Center(
-                child: Text('FAQ & Quick Tips - Under Development'),
-              ),
-            ),
-          ],
-        ),
+          ),
+          // ...existing code...
+        ],
       ),
     );
   }

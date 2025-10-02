@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../config/routes/app_routes.dart';
+import '../../../config/constants/app_constants.dart';
 import '../../../core/services/auth_service.dart';
 import '../../../core/services/storage_service.dart';
 import '../../../core/dependency_injection/service_locator.dart';
@@ -17,8 +18,8 @@ class SplashViewModel extends StateNotifier<SplashState> {
   Future<void> initialize() async {
     state = state.copyWith(isLoading: true);
 
-    // Minimum splash duration
-    await Future.delayed(const Duration(seconds: 2));
+    // Use splash duration from AppConstants (5 seconds)
+    await Future.delayed(Duration(milliseconds: AppConstants.splashDuration));
 
     try {
       // Check if user is logged in

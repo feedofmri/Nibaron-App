@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import '../../../config/constants/string_constants.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class EditProfileScreen extends StatelessWidget {
+class EditProfileScreen extends ConsumerWidget {
   const EditProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(StringConstants.editProfile),
+        title: Text(l10n.editProfile),
         actions: [
           TextButton(
             onPressed: () {
               // Save profile changes
               Navigator.pop(context);
             },
-            child: Text(StringConstants.save),
+            child: Text(l10n.save),
           ),
         ],
       ),
@@ -25,14 +28,14 @@ class EditProfileScreen extends StatelessWidget {
           children: [
             TextField(
               decoration: InputDecoration(
-                labelText: 'নাম',
-                hintText: 'আপনার নাম লিখুন',
+                labelText: l10n.name,
+                hintText: l10n.enterYourName,
               ),
             ),
             const SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
-                labelText: 'ইমেইল (ঐচ্ছিক)',
+                labelText: l10n.emailOptional,
                 hintText: 'example@email.com',
               ),
               keyboardType: TextInputType.emailAddress,
@@ -40,8 +43,8 @@ class EditProfileScreen extends StatelessWidget {
             const SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
-                labelText: 'ঠিকানা',
-                hintText: 'আপনার সম্পূর্ণ ঠিকানা',
+                labelText: l10n.address,
+                hintText: l10n.enterYourFullAddress,
               ),
               maxLines: 3,
             ),

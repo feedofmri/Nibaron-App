@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../config/constants/string_constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../data/providers/theme_provider.dart';
 import '../../../data/providers/locale_provider.dart';
 
@@ -11,10 +11,11 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
     final locale = ref.watch(localeProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(StringConstants.settings),
+        title: Text(l10n.settings),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -23,8 +24,8 @@ class SettingsScreen extends ConsumerWidget {
           Card(
             child: ListTile(
               leading: const Icon(Icons.language),
-              title: Text(StringConstants.language),
-              subtitle: Text(locale.languageCode == 'bn' ? StringConstants.bangla : StringConstants.english),
+              title: Text(l10n.language),
+              subtitle: Text(locale.languageCode == 'bn' ? l10n.bengali : l10n.english),
               trailing: Switch(
                 value: locale.languageCode == 'en',
                 onChanged: (value) {
@@ -42,8 +43,8 @@ class SettingsScreen extends ConsumerWidget {
           Card(
             child: ListTile(
               leading: const Icon(Icons.palette),
-              title: Text(StringConstants.theme),
-              subtitle: Text(_getThemeName(themeMode)),
+              title: Text(l10n.theme),
+              subtitle: Text(_getThemeName(themeMode, l10n)),
               onTap: () => _showThemeDialog(context, ref, themeMode),
             ),
           ),
@@ -54,8 +55,8 @@ class SettingsScreen extends ConsumerWidget {
           Card(
             child: ListTile(
               leading: const Icon(Icons.notifications),
-              title: Text(StringConstants.notifications),
-              subtitle: Text(StringConstants.enableNotifications),
+              title: Text(l10n.notifications),
+              subtitle: Text(l10n.pushNotifications),
               trailing: Switch(
                 value: true, // Default enabled
                 onChanged: (value) {
@@ -71,7 +72,7 @@ class SettingsScreen extends ConsumerWidget {
           Card(
             child: ListTile(
               leading: const Icon(Icons.wb_cloudy),
-              title: Text(StringConstants.weatherAlerts),
+              title: Text(l10n.weatherAlerts),
               trailing: Switch(
                 value: true, // Default enabled
                 onChanged: (value) {
@@ -87,7 +88,7 @@ class SettingsScreen extends ConsumerWidget {
           Card(
             child: ListTile(
               leading: const Icon(Icons.task),
-              title: Text(StringConstants.taskReminders),
+              title: Text(l10n.farmingReminders),
               trailing: Switch(
                 value: true, // Default enabled
                 onChanged: (value) {
@@ -103,7 +104,7 @@ class SettingsScreen extends ConsumerWidget {
           Card(
             child: ListTile(
               leading: const Icon(Icons.privacy_tip),
-              title: Text(StringConstants.privacy),
+              title: Text(l10n.privacy),
               trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () {
                 // Navigate to privacy screen
@@ -117,7 +118,7 @@ class SettingsScreen extends ConsumerWidget {
           Card(
             child: ListTile(
               leading: const Icon(Icons.help),
-              title: Text(StringConstants.helpAndFeedback),
+              title: Text(l10n.helpCenter),
               trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () {
                 // Navigate to help screen
@@ -131,7 +132,7 @@ class SettingsScreen extends ConsumerWidget {
           Card(
             child: ListTile(
               leading: const Icon(Icons.info),
-              title: Text(StringConstants.version),
+              title: Text(l10n.version),
               subtitle: const Text('v1.0.0'),
             ),
           ),
@@ -140,27 +141,28 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  String _getThemeName(ThemeMode themeMode) {
+  String _getThemeName(ThemeMode themeMode, AppLocalizations l10n) {
     switch (themeMode) {
       case ThemeMode.light:
-        return StringConstants.lightTheme;
+        return l10n.lightMode;
       case ThemeMode.dark:
-        return StringConstants.darkTheme;
+        return l10n.darkMode;
       case ThemeMode.system:
-        return StringConstants.systemTheme;
+        return l10n.systemMode;
     }
   }
 
   void _showThemeDialog(BuildContext context, WidgetRef ref, ThemeMode currentTheme) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(StringConstants.theme),
+        title: Text(l10n.selectTheme),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             RadioListTile<ThemeMode>(
-              title: Text(StringConstants.lightTheme),
+              title: Text(l10n.lightMode),
               value: ThemeMode.light,
               groupValue: currentTheme,
               onChanged: (value) {
@@ -171,7 +173,7 @@ class SettingsScreen extends ConsumerWidget {
               },
             ),
             RadioListTile<ThemeMode>(
-              title: Text(StringConstants.darkTheme),
+              title: Text(l10n.darkMode),
               value: ThemeMode.dark,
               groupValue: currentTheme,
               onChanged: (value) {
@@ -182,7 +184,7 @@ class SettingsScreen extends ConsumerWidget {
               },
             ),
             RadioListTile<ThemeMode>(
-              title: Text(StringConstants.systemTheme),
+              title: Text(l10n.systemMode),
               value: ThemeMode.system,
               groupValue: currentTheme,
               onChanged: (value) {

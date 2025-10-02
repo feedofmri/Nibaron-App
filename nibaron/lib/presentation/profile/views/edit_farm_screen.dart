@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import '../../../config/constants/string_constants.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class EditFarmScreen extends StatelessWidget {
+class EditFarmScreen extends ConsumerWidget {
   const EditFarmScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(StringConstants.editFarm),
+        title: Text(l10n.editFarm),
         actions: [
           TextButton(
             onPressed: () {
               // Save farm changes
               Navigator.pop(context);
             },
-            child: Text(StringConstants.save),
+            child: Text(l10n.save),
           ),
         ],
       ),
@@ -25,46 +28,33 @@ class EditFarmScreen extends StatelessWidget {
           children: [
             DropdownButtonFormField<String>(
               decoration: InputDecoration(
-                labelText: StringConstants.cropType,
+                labelText: l10n.cropType,
               ),
               items: [
-                DropdownMenuItem(value: 'rice', child: Text(StringConstants.rice)),
-                DropdownMenuItem(value: 'wheat', child: Text(StringConstants.wheat)),
-                DropdownMenuItem(value: 'corn', child: Text(StringConstants.corn)),
+                DropdownMenuItem(value: 'rice', child: Text(l10n.rice)),
+                DropdownMenuItem(value: 'wheat', child: Text(l10n.wheat)),
+                DropdownMenuItem(value: 'corn', child: Text(l10n.corn)),
               ],
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
-                labelText: StringConstants.landSize,
-                hintText: '৫ একর',
+                labelText: l10n.landSize,
               ),
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               decoration: InputDecoration(
-                labelText: StringConstants.soilType,
+                labelText: l10n.soilType,
               ),
               items: [
-                DropdownMenuItem(value: 'clay', child: Text(StringConstants.clay)),
-                DropdownMenuItem(value: 'loam', child: Text(StringConstants.loam)),
-                DropdownMenuItem(value: 'sandy', child: Text(StringConstants.sandy)),
+                DropdownMenuItem(value: 'clay', child: Text(l10n.clay)),
+                DropdownMenuItem(value: 'loam', child: Text(l10n.loam)),
+                DropdownMenuItem(value: 'sandy', child: Text(l10n.sandy)),
               ],
               onChanged: (value) {},
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              decoration: InputDecoration(
-                labelText: StringConstants.location,
-                hintText: 'খামারের অবস্থান',
-                suffixIcon: Icon(Icons.location_on),
-              ),
-              readOnly: true,
-              onTap: () {
-                // Open location picker
-              },
             ),
           ],
         ),

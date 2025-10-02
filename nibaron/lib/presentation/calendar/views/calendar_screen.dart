@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../../config/constants/string_constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../config/theme/text_styles.dart';
 import '../../../config/theme/app_colors.dart';
 import '../../../data/models/calendar_event.dart';
@@ -63,11 +63,11 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final calendarState = ref.watch(calendarViewModelProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(StringConstants.farmingCalendar),
+        title: Text(l10n.farmingCalendar),
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -96,7 +96,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
+                  color: Colors.grey.withValues(alpha: 0.1),
                   spreadRadius: 1,
                   blurRadius: 3,
                   offset: const Offset(0, 2),
@@ -111,16 +111,34 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
               rangeSelectionMode: _rangeSelectionMode,
               eventLoader: _getEventsForDay,
               startingDayOfWeek: StartingDayOfWeek.monday,
+              // Fix day names cropping with proper styling
+              daysOfWeekHeight: 40,
+              rowHeight: 48,
+              daysOfWeekStyle: DaysOfWeekStyle(
+                weekdayStyle: TextStyles.bodyMedium.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.w600,
+                  height: 1.2,
+                ),
+                weekendStyle: TextStyles.bodyMedium.copyWith(
+                  color: AppColors.error,
+                  fontWeight: FontWeight.w600,
+                  height: 1.2,
+                ),
+              ),
               calendarStyle: CalendarStyle(
                 outsideDaysVisible: false,
                 weekendTextStyle: TextStyles.body2.copyWith(color: AppColors.error),
                 holidayTextStyle: TextStyles.body2.copyWith(color: AppColors.error),
+                defaultTextStyle: TextStyles.body2.copyWith(
+                  height: 1.2,
+                ),
                 selectedDecoration: BoxDecoration(
                   color: AppColors.primary,
                   shape: BoxShape.circle,
                 ),
                 todayDecoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.5),
+                  color: AppColors.primary.withValues(alpha: 0.5),
                   shape: BoxShape.circle,
                 ),
                 markersMaxCount: 3,
@@ -128,6 +146,9 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                   color: AppColors.secondary,
                   shape: BoxShape.circle,
                 ),
+                // Add proper cell padding to prevent cropping
+                cellPadding: const EdgeInsets.all(6.0),
+                cellAlignment: Alignment.center,
               ),
               headerStyle: HeaderStyle(
                 formatButtonVisible: true,
@@ -197,7 +218,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                         TextButton.icon(
                           onPressed: () => _showAddEventDialog(context),
                           icon: const Icon(Icons.add),
-                          label: const Text('Add Event'),
+                          label: Text(l10n.addTask),
                         ),
                       ],
                     ),
@@ -257,15 +278,16 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
   }
 
   void _deleteEvent(CalendarEvent event) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Event'),
-        content: Text('Are you sure you want to delete "${event.title}"?'),
+        title: Text(l10n.delete),
+        content: Text('${l10n.areYouSure} "${event.title}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () {
@@ -273,7 +295,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
               _selectedEvents.value = _getEventsForDay(_selectedDay ?? DateTime.now());
               Navigator.pop(context);
             },
-            child: const Text('Delete'),
+            child: Text(l10n.delete),
           ),
         ],
       ),

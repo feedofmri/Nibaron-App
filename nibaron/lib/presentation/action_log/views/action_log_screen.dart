@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../config/constants/string_constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../config/theme/text_styles.dart';
 import '../../../config/theme/app_colors.dart';
 import '../../../data/models/action_log_entry.dart';
@@ -50,10 +50,11 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen>
   @override
   Widget build(BuildContext context) {
     final actionLogState = ref.watch(actionLogViewModelProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(StringConstants.actionHistory),
+        title: Text(l10n.actionHistory),
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -72,10 +73,10 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen>
           indicatorColor: Colors.white,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
-          tabs: const [
-            Tab(text: 'Recent', icon: Icon(Icons.access_time)),
-            Tab(text: 'This Week', icon: Icon(Icons.calendar_view_week)),
-            Tab(text: 'This Month', icon: Icon(Icons.calendar_view_month)),
+          tabs: [
+            Tab(text: l10n.recent, icon: const Icon(Icons.access_time)),
+            Tab(text: l10n.thisWeek, icon: const Icon(Icons.calendar_view_week)),
+            Tab(text: l10n.thisMonth, icon: const Icon(Icons.calendar_view_month)),
           ],
         ),
       ),
@@ -103,7 +104,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen>
               child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: 'Search activities...',
+                  hintText: l10n.searchActivities,
                   prefixIcon: const Icon(Icons.search),
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.clear),

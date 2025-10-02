@@ -1,6 +1,8 @@
 class AppRoutes {
   // Authentication & Onboarding Routes
   static const String splash = '/';
+  static const String languageSelection = '/language-selection';
+  static const String onboardingSlides = '/onboarding-slides';
   static const String onboarding = '/onboarding';
   static const String registration = '/registration';
   static const String otpVerification = '/otp-verification';

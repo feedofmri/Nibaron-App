@@ -1,7 +1,22 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class StringConstants {
-  // App General
-  static const String appName = 'নিবারণ';
-  static const String appTagline = 'পূর্বাভাস। প্রতিরোধ। সুরক্ষা।';
+  static AppLocalizations of(BuildContext context) {
+    return AppLocalizations.of(context)!;
+  }
+
+  // App Information
+  static const String appName = 'Nibaron';
+  static const String appNameBengali = 'নিবারণ';
+  static const String appTaglineEnglish = 'Forecast. Prevent. Protect.';
+  static const String appTaglineBengali = 'পূর্বাভাস। প্রতিরোধ। সুরক্ষা।';
+
+  // Loading Text
+  static const String loading = 'Loading...';
+  static const String loadingBengali = 'লোড হচ্ছে...';
+
+  // Legacy static getters for backwards compatibility - these will be deprecated
   static const String appDescription = 'বাংলাদেশি কৃষকদের জন্য স্মার্ট কৃষি সহায়ক';
 
   // Common Actions
@@ -13,7 +28,6 @@ class StringConstants {
   static const String share = 'শেয়ার করুন';
   static const String retry = 'আবার চেষ্টা করুন';
   static const String refresh = 'রিফ্রেশ';
-  static const String loading = 'লোড হচ্ছে...';
   static const String next = 'এগিয়ে যান';
   static const String previous = 'পূর্ববর্তী';
   static const String done = 'সম্পন্ন';
@@ -49,157 +63,157 @@ class StringConstants {
   static const String quickActions = 'দ্রুত কার্যক্রম';
   static const String calendar = 'ক্যালেন্ডার';
   static const String recommendations = 'সুপারিশ';
-  static const String support = 'সহায়তা';
-  static const String actionLog = 'লগ দেখুন';
-  static const String seeMore = 'আরও দেখুন';
+
+  // Farming Calendar - Updated to use new property name
+  static const String farmingCalendar = 'কৃষি ক্যালেন্ডার';
 
   // Weather
   static const String weather = 'আবহাওয়া';
-  static const String weatherAndAlerts = 'আবহাওয়া ও সতর্কতা';
+  static const String weatherForecast = 'আবহাওয়ার পূর্বাভাস';
   static const String currentWeather = 'বর্তমান আবহাওয়া';
-  static const String forecast = 'পূর্বাভাস';
-  static const String sevenDayForecast = '৭ দিনের পূর্বাভাস';
-  static const String hourlyForecast = 'প্রতি ঘণ্টার পূর্বাভাস';
   static const String humidity = 'আর্দ্রতা';
   static const String windSpeed = 'বাতাসের গতি';
+  static const String pressure = 'চাপ';
+  static const String visibility = 'দৃশ্যমানতা';
   static const String uvIndex = 'UV সূচক';
-  static const String precipitation = 'বৃষ্টিপাত';
-  static const String activeAlerts = 'সক্রিয় সতর্কতা';
-  static const String viewDetails = 'বিস্তারিত দেখুন';
+  static const String sunrise = 'সূর্যোদয়';
+  static const String sunset = 'সূর্যাস্ত';
+  static const String feelLike = 'অনুভূত হচ্ছে';
 
-  // Weather Conditions
-  static const String sunny = 'রৌদ্রোজ্জ্বল';
-  static const String partlyCloudy = 'আংশিক মেঘলা';
-  static const String cloudy = 'মেঘলা';
-  static const String rainy = 'বৃষ্টি';
-  static const String stormy = 'ঝড়';
-  static const String foggy = 'কুয়াশা';
-
-  // Recommendations
-  static const String cropCareRecommendations = 'ফসল পরিচর্যা পরামর্শ';
-  static const String todayTasks = 'আজের কাজ';
-  static const String thisWeekTasks = 'এই সপ্তাহের কাজ';
-  static const String upcomingTasks = 'আগামী কাজ';
-  static const String irrigationTime = 'সেচের সময়';
-  static const String fertilizerApplication = 'সার প্রয়োগ';
-  static const String pestControl = 'কীটনাশক';
-  static const String harvestTime = 'ফসল কাটার সময়';
-  static const String completed = 'সম্পন্ন';
-  static const String markAsDone = 'সম্পন্ন হিসেবে চিহ্নিত করুন';
-
-  // Calendar
-  static const String farmingCalendar = 'কৃষি ক্যালেন্ডার';
-  static const String events = 'ইভেন্ট';
-  static const String addEvent = 'ইভেন্ট যোগ করুন';
-  static const String editEvent = 'ইভেন্ট সম্পাদনা';
-  static const String deleteEvent = 'ইভেন্ট মুছুন';
-  static const String eventDetails = 'ইভেন্টের বিস্তারিত';
-
-  // Action Log
-  static const String actionHistory = 'কার্যকলাপ ইতিহাস';
+  // Date & Time
   static const String today = 'আজ';
-  static const String yesterday = 'গতকাল';
+  static const String tomorrow = 'আগামীকাল';
   static const String thisWeek = 'এই সপ্তাহ';
-  static const String thisMonth = 'এই মাস';
-  static const String addActivity = 'কার্যকলাপ যোগ করুন';
-  static const String editActivity = 'কার্যকলাপ সম্পাদনা';
 
-  // Navigation
-  static const String home = 'হোম';
-  static const String profile = 'প্রোফাইল';
+  // Alerts
+  static const String alerts = 'সতর্কতা';
+  static const String weatherAlert = 'আবহাওয়া সতর্কতা';
+  static const String noAlertsTitle = 'কোন সক্রিয় সতর্কতা নেই';
+  static const String noAlertsDescription = 'এই মুহূর্তে আপনার এলাকার জন্য কোন আবহাওয়া সতর্কতা নেই';
 
-  // Support
-  static const String supportCenter = 'সহায়তা কেন্দ্র';
-  static const String callNow = 'এখনই কল করুন';
-  static const String connectToHotline = 'সরাসরি সরকারি কৃষি হটলাইনে সংযুক্ত হন';
-  static const String yourFarmInfoWillBeShared = 'আপনার ফসলের তথ্য স্বয়ংক্রিয়ভাবে শেয়ার হবে';
-  static const String faq = 'প্রায়শই জিজ্ঞাসিত প্রশ্ন';
-  static const String quickTips = 'দ্রুত টিপস';
-  static const String irrigation = 'সেচ';
-  static const String fertilizer = 'সার';
-  static const String pesticide = 'কীটনাশক';
-
-  // Profile
-  static const String editProfile = 'প্রোফাইল সম্পাদনা';
-  static const String farmDetails = 'খামারের বিস্তারিত';
-  static const String editFarm = 'খামার সম্পাদনা';
+  // Settings
   static const String settings = 'সেটিংস';
+  static const String profile = 'প্রোফাইল';
   static const String language = 'ভাষা';
-  static const String notifications = 'বিজ্ঞপ্তি';
   static const String theme = 'থিম';
-  static const String dataSaving = 'ডাটা সংরক্ষণ';
-  static const String privacy = 'গোপনীয়তা';
-  static const String helpAndFeedback = 'সাহায্য ও প্রতিক্রিয়া';
-  static const String version = 'সংস্করণ';
-  static const String logout = 'লগ আউট';
+  static const String notifications = 'বিজ্ঞপ্তি';
+  static const String about = 'সম্পর্কে';
+  static const String privacy = 'গোপনীয়তা নীতি';
+  static const String terms = 'সেবার শর্তাবলি';
+  static const String logout = 'লগআউট';
 
-  // Settings Options
-  static const String bangla = 'বাংলা';
+  // Theme options
+  static const String darkMode = 'ডার্ক মোড';
+  static const String lightMode = 'লাইট মোড';
+  static const String systemMode = 'সিস্টেম মোড';
+
+  // Language options
+  static const String bengali = 'বাংলা';
   static const String english = 'English';
-  static const String lightTheme = 'উজ্জ্বল';
-  static const String darkTheme = 'গাঢ়';
-  static const String systemTheme = 'সিস্টেম';
-  static const String enableNotifications = 'বিজ্ঞপ্তি চালু করুন';
+
+  // About
+  static const String version = 'সংস্করণ';
+
+  // Dialog titles
+  static const String selectLanguage = 'ভাষা নির্বাচন করুন';
+  static const String selectTheme = 'থিম নির্বাচন করুন';
+
+  // Notification settings
+  static const String pushNotifications = 'পুশ বিজ্ঞপ্তি';
   static const String weatherAlerts = 'আবহাওয়া সতর্কতা';
-  static const String taskReminders = 'কাজের অনুস্মারক';
-  static const String voiceCalls = 'ভয়েস কল';
+  static const String farmingReminders = 'কৃষি রিমাইন্ডার';
+  static const String soundEnabled = 'সাউন্ড চালু';
+  static const String vibrationEnabled = 'ভাইব্রেশন চালু';
 
-  // Farm Setup
-  static const String cropType = 'ফসলের ধরন';
+  // Support & Feedback
+  static const String contactSupport = 'সাপোর্টে যোগাযোগ';
+  static const String rateApp = 'অ্যাপ রেট করুন';
+  static const String shareApp = 'অ্যাপ শেয়ার করুন';
+  static const String feedback = 'মতামত';
+  static const String reportBug = 'বাগ রিপোর্ট';
+  static const String helpCenter = 'সাহায্য কেন্দ্র';
+  static const String faq = 'প্রশ্নোত্তর';
+
+  // Crop management
+  static const String crops = 'ফসল';
+  static const String addCrop = 'ফসল যোগ করুন';
+  static const String cropName = 'ফসলের নাম';
   static const String plantingDate = 'রোপণের তারিখ';
-  static const String landSize = 'জমির আকার';
-  static const String soilType = 'মাটির ধরন';
-  static const String location = 'অবস্থান';
-  static const String selectCrop = 'ফসল নির্বাচন করুন';
-  static const String selectDate = 'তারিখ নির্বাচন করুন';
-  static const String enterLandSize = 'জমির আকার লিখুন';
-  static const String selectSoilType = 'মাটির ধরন নির্বাচন করুন';
-  static const String selectLocation = 'অবস্থান নির্বাচন করুন';
-  static const String useCurrentLocation = 'বর্তমান অবস্থান ব্যবহার করুন';
+  static const String harvestDate = 'ফসল কাটার তারিখ';
+  static const String cropVariety = 'ফসলের জাত';
+  static const String fieldSize = 'ক্ষেতের আকার';
+  static const String expectedYield = 'প্রত্যাশিত ফলন';
 
-  // Crop Types
-  static const String rice = 'ধান';
-  static const String wheat = 'গম';
-  static const String corn = 'ভুট্টা';
-  static const String jute = 'পাট';
-  static const String sugarcane = 'আখ';
-  static const String potato = 'আলু';
-  static const String onion = 'পেঁয়াজ';
-  static const String garlic = 'রসুন';
-  static const String tomato = 'টমেটো';
-  static const String eggplant = 'বেগুন';
+  // Tasks & Activities
+  static const String tasks = 'কাজ';
+  static const String addTask = 'কাজ যোগ করুন';
+  static const String taskTitle = 'কাজের শিরোনাম';
+  static const String taskDescription = 'কাজের বিবরণ';
+  static const String dueDate = 'শেষ তারিখ';
+  static const String priority = 'অগ্রাধিকার';
+  static const String status = 'অবস্থা';
+  static const String completed = 'সম্পন্ন';
+  static const String pending = 'বাকি';
+  static const String overdue = 'সময়সীমা অতিক্রম';
 
-  // Soil Types
-  static const String clay = 'কাদামাটি';
-  static const String loam = 'দোআঁশ';
-  static const String sandy = 'বালি';
-  static const String silt = 'পলিমাটি';
-  static const String mixed = 'মিশ্র';
+  // Priority levels
+  static const String high = 'উচ্চ';
+  static const String medium = 'মাঝারি';
+  static const String low = 'নিম্ন';
 
-  // Error Messages
-  static const String errorGeneric = 'কিছু ভুল হয়েছে। আবার চেষ্টা করুন।';
-  static const String errorNetwork = 'ইন্টারনেট সংযোগ নেই।';
-  static const String errorTimeout = 'সময় শেষ। আবার চেষ্টা করুন।';
-  static const String errorInvalidPhone = 'সঠিক মোবাইল নম্বর দিন।';
-  static const String errorInvalidOtp = 'সঠিক OTP কোড দিন।';
-  static const String errorRequired = 'এই ক্ষেত্রটি আবশ্যক।';
-  static const String errorLocation = 'অবস্থান নির্ধারণ করতে পারছি না।';
-
-  // Success Messages
-  static const String successSaved = 'সফলভাবে সংরক্ষিত হয়েছে।';
-  static const String successUpdated = 'সফলভাবে আপডেট হয়েছে।';
-  static const String successDeleted = 'সফলভাবে মুছে ফেলা হয়েছে।';
-  static const String successTaskCompleted = 'কাজ সম্পন্ন হয়েছে।';
-  static const String successOtpSent = 'OTP পাঠানো হয়েছে।';
+  // Market & Prices
+  static const String market = 'বাজার';
+  static const String prices = 'দাম';
+  static const String marketPrices = 'বাজার দর';
+  static const String pricePerKg = 'প্রতি কেজি দাম';
+  static const String pricePerMaund = 'প্রতি মণ দাম';
 
   // Units
-  static const String celsius = '°সে';
-  static const String fahrenheit = '°ফা';
-  static const String kmh = 'কি.মি./ঘ';
-  static const String mph = 'মাইল/ঘ';
-  static const String mm = 'মি.মি.';
-  static const String inch = 'ইঞ্চি';
+  static const String kg = 'কেজি';
+  static const String maund = 'মণ';
   static const String acre = 'একর';
   static const String bigha = 'বিঘা';
   static const String katha = 'কাঠা';
+
+  // Location
+  static const String location = 'অবস্থান';
+  static const String district = 'জেলা';
+  static const String upazila = 'উপজেলা';
+  static const String union = 'ইউনিয়ন';
+  static const String village = 'গ্রাম';
+
+  // Farm details
+  static const String farmName = 'খামারের নাম';
+  static const String farmSize = 'খামারের আকার';
+  static const String farmType = 'খামারের ধরন';
+  static const String organicFarm = 'জৈব খামার';
+  static const String conventionalFarm = 'প্রচলিত খামার';
+
+  // Emergency
+  static const String emergency = 'জরুরি';
+  static const String emergencyContacts = 'জরুরি যোগাযোগ';
+  static const String hotline = 'হটলাইন';
+  static const String call = 'কল করুন';
+
+  // Error messages
+  static const String error = 'ত্রুটি';
+  static const String networkError = 'নেটওয়ার্ক ত্রুটি';
+  static const String connectionFailed = 'সংযোগ ব্যর্থ';
+  static const String dataNotFound = 'তথ্য পাওয়া যায়নি';
+  static const String permissionDenied = 'অনুমতি প্রত্যাখ্যাত';
+  static const String locationPermissionRequired = 'অবস্থানের অনুমতি প্রয়োজন';
+
+  // Success messages
+  static const String success = 'সফল';
+  static const String saved = 'সংরক্ষিত';
+  static const String updated = 'আপডেট করা হয়েছে';
+  static const String deleted = 'মুছে ফেলা হয়েছে';
+  static const String added = 'যোগ করা হয়েছে';
+
+  // Confirmation
+  static const String confirmation = 'নিশ্চিতকরণ';
+  static const String areYouSure = 'আপনি কি নিশ্চিত?';
+  static const String cannotBeUndone = 'এটি পূর্বাবস্থায় ফেরানো যাবে না';
+  static const String yes = 'হ্যাঁ';
+  static const String no = 'না';
 }

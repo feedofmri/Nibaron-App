@@ -1,0 +1,18 @@
+{
+  "bn": [
+    "smartFarmingAssistant",
+    "validPhoneNumber",
+    "enterValidPhoneNumber",
+    "sending",
+    "verifyOtp",
+    "enterOtpMessage",
+    "enterOtpCode",
+    "didntReceiveCode",
+    "resendInSeconds",
+    "resend",
+    "verifying",
+    "crops",
+    "chooseLanguageMessage",
+    "continueButton"
+  ]
+}

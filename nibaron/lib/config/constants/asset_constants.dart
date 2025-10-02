@@ -7,6 +7,9 @@ class AssetConstants {
   static const String logo2x = '$_imagesPath/logo/logo@2x.png';
   static const String logo3x = '$_imagesPath/logo/logo@3x.png';
 
+  // App Icon
+  static const String nibaronIcon = '$_imagesPath/nibaron_icon.png';
+
   // Onboarding
   static const String onboarding1 = '$_imagesPath/onboarding/onboarding_1.png';
   static const String onboarding2 = '$_imagesPath/onboarding/onboarding_2.png';
@@ -129,4 +132,3 @@ class AssetConstants {
     }
   }
 }
-

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lottie/lottie.dart';
-import '../view_models/splash_view_model.dart';
 import '../widgets/animated_logo.dart';
-import '../../../config/constants/asset_constants.dart';
 import '../../../config/constants/string_constants.dart';
 import '../../../config/theme/text_styles.dart';
+import '../../../config/theme/app_colors.dart';
+import '../../../core/services/onboarding_service.dart';
+import '../../../config/routes/app_routes.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -38,8 +38,36 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fadeController.forward();
-      ref.read(splashViewModelProvider.notifier).initialize();
+      _initializeApp();
     });
+  }
+
+  Future<void> _initializeApp() async {
+    // Wait for animation to complete
+    await Future.delayed(const Duration(milliseconds: 2500));
+
+    if (!mounted) return;
+
+    try {
+      // Check onboarding status
+      final isFirstLaunch = await OnboardingService.isFirstLaunch();
+      final isLanguageSelected = await OnboardingService.isLanguageSelected();
+
+      if (isFirstLaunch && !isLanguageSelected) {
+        // First time user - go to language selection
+        Navigator.of(context).pushReplacementNamed(AppRoutes.languageSelection);
+      } else if (!isFirstLaunch && isLanguageSelected) {
+        // Existing user who has completed onboarding - go to main app
+        Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+      } else {
+        // Edge case: inconsistent state, reset and go to language selection
+        await OnboardingService.resetOnboarding();
+        Navigator.of(context).pushReplacementNamed(AppRoutes.languageSelection);
+      }
+    } catch (e) {
+      // If there's any error, default to language selection
+      Navigator.of(context).pushReplacementNamed(AppRoutes.languageSelection);
+    }
   }
 
   @override
@@ -50,101 +78,105 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    final splashState = ref.watch(splashViewModelProvider);
-
-    // Listen for navigation
-    ref.listen<SplashState>(splashViewModelProvider, (previous, next) {
-      if (next.shouldNavigate && next.nextRoute != null) {
-        Navigator.of(context).pushReplacementNamed(next.nextRoute!);
-      }
-    });
-
     return Scaffold(
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: Theme.of(context).brightness == Brightness.light
-                ? [
-                    const Color(0xFFFAFAF6),
-                    const Color(0xFFE8F5E0),
-                  ]
-                : [
-                    const Color(0xFF2A2E34),
-                    const Color(0xFF3A3F47),
-                  ],
+                ? AppColors.lightGradient
+                : AppColors.darkGradient,
           ),
         ),
         child: SafeArea(
           child: FadeTransition(
             opacity: _fadeAnimation,
-            child: SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height -
-                             MediaQuery.of(context).padding.top -
-                             MediaQuery.of(context).padding.bottom,
-                ),
-                child: IntrinsicHeight(
+            child: Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Spacer(flex: 2),
-
-                      // Animated Logo
-                      const AnimatedLogo(),
+                      // Custom Logo with theme colors
+                      Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          color: Colors.white, // White card background
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primary.withOpacity(0.25), // Fadeout glow
+                              blurRadius: 48,
+                              spreadRadius: 8,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            color: Colors.transparent,
+                            child: Image.asset(
+                              'assets/images/nibaron_icon.png',
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(
+                                  Icons.agriculture_rounded,
+                                  size: 60,
+                                  color: Colors.white,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
 
                       const SizedBox(height: 32),
 
-                      // App Name
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Text(
-                          StringConstants.appName,
-                          style: TextStyles.headline1.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          textAlign: TextAlign.center,
+                      // App Name with theme colors
+                      Text(
+                        StringConstants.appName,
+                        style: TextStyles.headline1.copyWith(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
 
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 16),
 
-                      // Tagline
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Text(
-                          StringConstants.appTagline,
-                          style: TextStyles.bodyMedium.copyWith(
-                            color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
-                          ),
-                          textAlign: TextAlign.center,
+                      // App Tagline with theme colors
+                      Text(
+                        'পূর্বাভাস। প্রতিরোধ। সুরক্ষা।\nForecast. Prevent. Protect.',
+                        style: TextStyles.bodyLarge.copyWith(
+                          color: AppColors.textSecondary,
+                          height: 1.5,
                         ),
+                        textAlign: TextAlign.center,
                       ),
-
-                      const Spacer(flex: 2),
-
-                      // Loading Animation
-                      if (splashState.isLoading) ...[
-                        SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: Lottie.asset(
-                            AssetConstants.loadingAnimation,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          StringConstants.loading,
-                          style: TextStyles.bodySmall.copyWith(
-                            color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.6),
-                          ),
-                        ),
-                      ],
 
                       const SizedBox(height: 48),
+
+                      // Loading Indicator with theme colors
+                      CircularProgressIndicator(
+                        color: AppColors.primary,
+                        strokeWidth: 3,
+                      ),
+
+                      const SizedBox(height: 24),
+
+                      Text(
+                        'লোড হচ্ছে... | Loading...',
+                        style: TextStyles.bodyMedium.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
                     ],
                   ),
                 ),
