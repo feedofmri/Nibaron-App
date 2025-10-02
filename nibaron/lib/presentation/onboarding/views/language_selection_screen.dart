@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../config/theme/app_colors.dart';
 import '../../../config/theme/text_styles.dart';
 import '../../../core/services/onboarding_service.dart';
+import '../../../data/providers/locale_provider.dart';
 
 class LanguageSelectionScreen extends ConsumerStatefulWidget {
   const LanguageSelectionScreen({super.key});
@@ -55,6 +56,12 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
     _languages = OnboardingService.getSupportedLanguages();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Set initial selected language from current locale
+      final currentLocale = ref.read(localeProvider);
+      setState(() {
+        _selectedLanguage = currentLocale.languageCode;
+      });
+
       _fadeController.forward();
       _slideController.forward();
     });
@@ -73,7 +80,7 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
 
     return Scaffold(
       body: Container(
-        color: AppColors.background,
+        color: Theme.of(context).colorScheme.background,
         child: SafeArea(
           child: FadeTransition(
             opacity: _fadeAnimation,
@@ -92,15 +99,15 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
                             onPressed: () => Navigator.pop(context),
                             icon: const Icon(Icons.arrow_back_rounded),
                             style: IconButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: AppColors.textPrimary,
+                              backgroundColor: Theme.of(context).colorScheme.surface,
+                              foregroundColor: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                           const Spacer(),
                           Text(
                             '1/4',
                             style: TextStyles.bodyMedium.copyWith(
-                              color: AppColors.textSecondary,
+                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -123,7 +130,7 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
                                 borderRadius: BorderRadius.circular(25),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppColors.primary.withOpacity(0.3),
+                                    color: AppColors.primary.withValues(alpha: 0.3),
                                     blurRadius: 20,
                                     offset: const Offset(0, 10),
                                   ),
@@ -142,11 +149,11 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
                             Container(
                               padding: const EdgeInsets.all(24),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.9),
+                                color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.9),
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.05),
+                                    color: Theme.of(context).shadowColor.withValues(alpha: 0.05),
                                     blurRadius: 20,
                                     offset: const Offset(0, 10),
                                   ),
@@ -157,7 +164,7 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
                                   Text(
                                     l10n.selectLanguage,
                                     style: TextStyles.headline2.copyWith(
-                                      color: AppColors.textPrimary,
+                                      color: Theme.of(context).colorScheme.onSurface,
                                       fontWeight: FontWeight.bold,
                                     ),
                                     textAlign: TextAlign.center,
@@ -166,7 +173,7 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
                                   Text(
                                     l10n.chooseLanguageMessage,
                                     style: TextStyles.bodyLarge.copyWith(
-                                      color: AppColors.textSecondary,
+                                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                                       height: 1.5,
                                     ),
                                     textAlign: TextAlign.center,
@@ -199,11 +206,11 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
                           borderRadius: BorderRadius.circular(16),
                           color: _selectedLanguage != null && !_isLoading
                               ? AppColors.primary
-                              : Colors.grey.shade300,
+                              : Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
                           boxShadow: _selectedLanguage != null && !_isLoading
                               ? [
                                   BoxShadow(
-                                    color: AppColors.primary.withOpacity(0.4),
+                                    color: AppColors.primary.withValues(alpha: 0.4),
                                     blurRadius: 15,
                                     offset: const Offset(0, 8),
                                   ),
@@ -246,13 +253,13 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
                                           l10n.continueButton,
                                           style: TextStyles.bodyLarge.copyWith(
                                             fontWeight: FontWeight.bold,
-                                            color: _selectedLanguage != null ? Colors.white : Colors.grey.shade600,
+                                            color: _selectedLanguage != null ? Colors.white : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
                                           ),
                                         ),
                                         const SizedBox(width: 8),
                                         Icon(
                                           Icons.arrow_forward_rounded,
-                                          color: _selectedLanguage != null ? Colors.white : Colors.grey.shade600,
+                                          color: _selectedLanguage != null ? Colors.white : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
                                           size: 20,
                                         ),
                                       ],
@@ -282,25 +289,29 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: () {
+          onTap: () async {
             setState(() {
               _selectedLanguage = language.code;
             });
+
+            // Immediately change the language using the locale provider
+            final locale = language.code == 'bn' ? const Locale('bn', 'BD') : const Locale('en', 'US');
+            await ref.read(localeProvider.notifier).setLocale(locale);
           },
           child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: isSelected ? AppColors.primary : Colors.grey.shade300,
+                color: isSelected ? AppColors.primary : Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
                 width: isSelected ? 2 : 1,
               ),
               boxShadow: [
                 BoxShadow(
                   color: isSelected
-                      ? AppColors.primary.withOpacity(0.2)
-                      : Colors.black.withValues(alpha: 0.05),
+                      ? AppColors.primary.withValues(alpha: 0.2)
+                      : Theme.of(context).shadowColor.withValues(alpha: 0.05),
                   blurRadius: isSelected ? 15 : 10,
                   offset: const Offset(0, 5),
                 ),
@@ -313,7 +324,7 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
+                    color: Theme.of(context).colorScheme.surfaceVariant.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
@@ -335,14 +346,14 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
                         language.name,
                         style: TextStyles.bodyLarge.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         language.nativeName,
                         style: TextStyles.bodyMedium.copyWith(
-                          color: AppColors.textSecondary,
+                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                         ),
                       ),
                     ],
@@ -358,7 +369,7 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
                     shape: BoxShape.circle,
                     color: isSelected ? AppColors.primary : Colors.transparent,
                     border: Border.all(
-                      color: isSelected ? AppColors.primary : Colors.grey.shade400,
+                      color: isSelected ? AppColors.primary : Theme.of(context).colorScheme.outline.withValues(alpha: 0.4),
                       width: 2,
                     ),
                   ),
@@ -384,8 +395,9 @@ class _LanguageSelectionScreenState extends ConsumerState<LanguageSelectionScree
     setState(() => _isLoading = true);
 
     try {
-      // Simulate language setting
-      await Future.delayed(const Duration(milliseconds: 1500));
+      // The language has already been set through the locale provider when selected
+      // Just add a small delay for UX and navigate
+      await Future.delayed(const Duration(milliseconds: 800));
 
       if (mounted) {
         Navigator.pushNamed(context, '/onboarding-slides');

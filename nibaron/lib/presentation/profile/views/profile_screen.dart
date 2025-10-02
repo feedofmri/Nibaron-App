@@ -43,7 +43,7 @@ class ProfileScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'কৃষক নাম', // Default name
+                          'Farmer Name', // Default name
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         Text(

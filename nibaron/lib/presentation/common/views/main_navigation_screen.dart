@@ -35,7 +35,7 @@ class MainNavigationScreen extends ConsumerWidget {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: const Offset(0, -5),
             ),
@@ -47,9 +47,9 @@ class MainNavigationScreen extends ConsumerWidget {
             ref.read(navigationProvider.notifier).setIndex(index);
           },
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           selectedItemColor: AppColors.primary,
-          unselectedItemColor: Colors.grey[600],
+          unselectedItemColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
           selectedLabelStyle: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
@@ -91,7 +91,7 @@ class MainNavigationScreen extends ConsumerWidget {
       duration: const Duration(milliseconds: 200),
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: isSelected ? AppColors.primary.withOpacity(0.1) : Colors.transparent,
+        color: isSelected ? AppColors.primary.withValues(alpha: 0.1) : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Icon(

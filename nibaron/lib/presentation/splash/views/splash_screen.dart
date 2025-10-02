@@ -107,11 +107,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                         width: 120,
                         height: 120,
                         decoration: BoxDecoration(
-                          color: Colors.white, // White card background
+                          color: Theme.of(context).colorScheme.surface, // Theme-aware background
                           borderRadius: BorderRadius.circular(30),
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.primary.withOpacity(0.25), // Fadeout glow
+                              color: AppColors.primary.withValues(alpha: 0.25), // Updated deprecated method
                               blurRadius: 48,
                               spreadRadius: 8,
                               offset: const Offset(0, 8),
@@ -127,10 +127,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                               'assets/images/nibaron_icon.png',
                               fit: BoxFit.contain,
                               errorBuilder: (context, error, stackTrace) {
-                                return const Icon(
+                                return Icon(
                                   Icons.agriculture_rounded,
                                   size: 60,
-                                  color: Colors.white,
+                                  color: AppColors.primary,
                                 );
                               },
                             ),
@@ -151,11 +151,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
                       const SizedBox(height: 16),
 
-                      // App Tagline with theme colors
+                      // App Tagline with English text for proper localization
                       Text(
-                        'পূর্বাভাস। প্রতিরোধ। সুরক্ষা।\nForecast. Prevent. Protect.',
+                        'Forecast. Prevent. Protect.\nপূর্বাভাস। প্রতিরোধ। সুরক্ষা।',
                         style: TextStyles.bodyLarge.copyWith(
-                          color: AppColors.textSecondary,
+                          color: Theme.of(context).colorScheme.onBackground.withValues(alpha: 0.8),
                           height: 1.5,
                         ),
                         textAlign: TextAlign.center,
@@ -172,9 +172,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                       const SizedBox(height: 24),
 
                       Text(
-                        'লোড হচ্ছে... | Loading...',
+                        'Loading... | লোড হচ্ছে...',
                         style: TextStyles.bodyMedium.copyWith(
-                          color: AppColors.textSecondary,
+                          color: Theme.of(context).colorScheme.onBackground.withValues(alpha: 0.7),
                         ),
                       ),
                     ],

@@ -93,7 +93,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
           // Calendar Widget
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withValues(alpha: 0.1),

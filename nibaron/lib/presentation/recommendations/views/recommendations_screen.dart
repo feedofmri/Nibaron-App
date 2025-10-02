@@ -55,7 +55,7 @@ class RecommendationsScreen extends ConsumerWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
+                      color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: IntrinsicHeight(
@@ -64,7 +64,7 @@ class RecommendationsScreen extends ConsumerWidget {
                           Expanded(
                             child: _buildStatCard(
                               context,
-                              'মোট',
+                              'Total',
                               state.recommendations.length.toString(),
                               Icons.list_alt,
                             ),
@@ -73,7 +73,7 @@ class RecommendationsScreen extends ConsumerWidget {
                           Expanded(
                             child: _buildStatCard(
                               context,
-                              'সম্পন্ন',
+                              l10n.completed,
                               state.recommendations.where((r) => r.isCompleted).length.toString(),
                               Icons.check_circle,
                             ),
@@ -82,7 +82,7 @@ class RecommendationsScreen extends ConsumerWidget {
                           Expanded(
                             child: _buildStatCard(
                               context,
-                              'বাকি',
+                              'Pending',
                               state.recommendations.where((r) => !r.isCompleted).length.toString(),
                               Icons.pending,
                             ),
@@ -144,7 +144,7 @@ class RecommendationsScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'কোনো পরামর্শ পাওয়া যায়নি',
+                            'No recommendations found',
                             style: TextStyles.bodyMedium.copyWith(
                               color: Theme.of(context).colorScheme.outline,
                             ),
@@ -189,7 +189,7 @@ class RecommendationsScreen extends ConsumerWidget {
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
         ),
       ),
       child: Column(
@@ -209,7 +209,7 @@ class RecommendationsScreen extends ConsumerWidget {
           Text(
             title,
             style: TextStyles.bodySmall.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
             ),
           ),
         ],

@@ -13,6 +13,17 @@
     "verifying",
     "crops",
     "chooseLanguageMessage",
-    "continueButton"
+    "continueButton",
+    "farmer",
+    "celsiusUnit",
+    "kmPerHourUnit",
+    "searchRecommendations",
+    "weatherWarning",
+    "irrigationTime",
+    "heavyRainExpected",
+    "irrigationReminder",
+    "minutesAgo",
+    "hoursAgo",
+    "markAllAsRead"
   ]
 }

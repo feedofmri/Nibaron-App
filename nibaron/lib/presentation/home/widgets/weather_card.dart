@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../data/models/weather/weather_model.dart';
 import '../../../config/constants/asset_constants.dart';
-import '../../../config/constants/string_constants.dart';
 import '../../../config/theme/text_styles.dart';
 
 class WeatherCard extends StatelessWidget {
@@ -12,6 +12,8 @@ class WeatherCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (weather == null) {
       return _buildLoadingCard(context);
     }
@@ -59,7 +61,7 @@ class WeatherCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      weather!.temperatureText,
+                      weather!.getLocalizedTemperatureText(l10n),
                       style: TextStyles.weatherTemperature.copyWith(
                         color: Theme.of(context).textTheme.displayLarge?.color,
                       ),
@@ -94,19 +96,19 @@ class WeatherCard extends StatelessWidget {
                 _buildWeatherStat(
                   context,
                   Icons.water_drop_outlined,
-                  StringConstants.humidity,
+                  l10n.humidity,
                   weather!.humidityText,
                 ),
                 _buildWeatherStat(
                   context,
                   Icons.air_outlined,
-                  StringConstants.windSpeed,
-                  weather!.windSpeedText,
+                  l10n.windSpeed,
+                  weather!.getLocalizedWindSpeedText(l10n),
                 ),
                 _buildWeatherStat(
                   context,
                   Icons.wb_sunny_outlined,
-                  StringConstants.uvIndex,
+                  l10n.uvIndex,
                   weather!.uvIndex.toString(),
                 ),
               ],
@@ -130,7 +132,7 @@ class WeatherCard extends StatelessWidget {
               const CircularProgressIndicator(),
               const SizedBox(height: 16),
               Text(
-                StringConstants.loading,
+                AppLocalizations.of(context)!.loading,
                 style: TextStyles.bodyMedium.copyWith(
                   color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                 ),

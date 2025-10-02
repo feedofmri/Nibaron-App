@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../config/constants/string_constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../config/theme/text_styles.dart';
 
 class GreetingHeader extends StatelessWidget {
@@ -9,16 +9,17 @@ class GreetingHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final now = DateTime.now();
     final hour = now.hour;
+    final l10n = AppLocalizations.of(context)!;
 
     String greeting;
     if (hour < 12) {
-      greeting = StringConstants.goodMorning;
+      greeting = l10n.goodMorning;
     } else if (hour < 17) {
-      greeting = StringConstants.goodAfternoon;
+      greeting = l10n.goodAfternoon;
     } else if (hour < 21) {
-      greeting = StringConstants.goodEvening;
+      greeting = l10n.goodEvening;
     } else {
-      greeting = StringConstants.goodNight;
+      greeting = l10n.goodNight;
     }
 
     return Row(
@@ -35,7 +36,7 @@ class GreetingHeader extends StatelessWidget {
               ),
             ),
             Text(
-              'কৃষক', // Default name - would come from user data
+              l10n.farmer, // Now using localized text instead of hardcoded 'কৃষক'
               style: TextStyles.bodyMedium.copyWith(
                 color: Theme.of(context).textTheme.displaySmall?.color,
                 fontWeight: FontWeight.w600,

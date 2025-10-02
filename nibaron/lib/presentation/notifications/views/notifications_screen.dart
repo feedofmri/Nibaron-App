@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import '../../../config/constants/string_constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(StringConstants.notifications),
+        title: Text(l10n.notifications),
         actions: [
           TextButton(
             onPressed: () {
               // Mark all as read
             },
-            child: const Text('সব পড়া হয়েছে'),
+            child: Text(l10n.markAllAsRead),
           ),
         ],
       ),
@@ -33,16 +35,16 @@ class NotificationsScreen extends StatelessWidget {
                 ),
               ),
               title: Text(
-                index == 0 ? 'আবহাওয়া সতর্কতা' : 'সেচের সময়',
+                index == 0 ? l10n.weatherWarning : l10n.irrigationTime,
                 style: const TextStyle(fontWeight: FontWeight.w600),
               ),
               subtitle: Text(
                 index == 0
-                    ? 'আগামীকাল ভারী বৃষ্টির সম্ভাবনা'
-                    : 'আজ সন্ধ্যায় সেচ দেওয়ার সময়',
+                    ? l10n.heavyRainExpected
+                    : l10n.irrigationReminder,
               ),
               trailing: Text(
-                index == 0 ? '১০ মিনিট' : '২ ঘন্টা',
+                index == 0 ? '10 ${l10n.minutesAgo}' : '2 ${l10n.hoursAgo}',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               onTap: () {

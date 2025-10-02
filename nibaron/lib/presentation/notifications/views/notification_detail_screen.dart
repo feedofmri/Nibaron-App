@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationDetailScreen extends StatelessWidget {
   final String notificationId;
@@ -7,6 +8,8 @@ class NotificationDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notification Details'),
@@ -17,22 +20,22 @@ class NotificationDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'আবহাওয়া সতর্কতা',
+              l10n.weatherWarning,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 16),
             Text(
-              'আগামীকাল ভারী বৃষ্টির সম্ভাবনা রয়েছে। আপনার ফসলের যত্ন নিন এবং প্রয়োজনীয় ব্যবস্থা গ্রহণ করুন।',
+              l10n.heavyRainExpected,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 24),
             Text(
-              'প্রয়োজনীয় পদক্ষেপ:',
+              'Required Steps:',
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
             Text(
-              '• জমিতে জল নিষ্কাশনের ব্যবস্থা করুন\n• ফসল কাটার কাজ এগিয়ে আনুন\n• কীটনাশক স্প্রে করা থেকে বিরত থাকুন',
+              '• Ensure proper drainage in fields\n• Advance crop harvesting if possible\n• Avoid pesticide spraying',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],

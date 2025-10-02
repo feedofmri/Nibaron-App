@@ -117,7 +117,7 @@ class _FarmSetupScreenState extends ConsumerState<FarmSetupScreen>
 
     return Scaffold(
       body: Container(
-        color: AppColors.background,
+        color: Theme.of(context).colorScheme.background,
         child: SafeArea(
           child: FadeTransition(
             opacity: _fadeAnimation,
@@ -132,15 +132,15 @@ class _FarmSetupScreenState extends ConsumerState<FarmSetupScreen>
                         onPressed: () => Navigator.pop(context),
                         icon: const Icon(Icons.arrow_back_rounded),
                         style: IconButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: AppColors.textPrimary,
+                          backgroundColor: Theme.of(context).colorScheme.surface,
+                          foregroundColor: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       const Spacer(),
                       Text(
                         '4/4',
                         style: TextStyles.bodyMedium.copyWith(
-                          color: AppColors.textSecondary,
+                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -187,11 +187,11 @@ class _FarmSetupScreenState extends ConsumerState<FarmSetupScreen>
                           Container(
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.9),
+                              color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.9),
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.05),
+                                  color: Theme.of(context).shadowColor.withValues(alpha: 0.05),
                                   blurRadius: 20,
                                   offset: const Offset(0, 10),
                                 ),
@@ -200,18 +200,18 @@ class _FarmSetupScreenState extends ConsumerState<FarmSetupScreen>
                             child: Column(
                               children: [
                                 Text(
-                                  l10n.farmSetup,
+                                  '🚜 ${l10n.farmSetup}',
                                   style: TextStyles.headline2.copyWith(
-                                    color: AppColors.textPrimary,
+                                    color: Theme.of(context).colorScheme.onSurface,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
-                                  l10n.farmSetupDescription,
+                                  'Set up your farm details to get personalized recommendations',
                                   style: TextStyles.bodyLarge.copyWith(
-                                    color: AppColors.textSecondary,
+                                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                                     height: 1.5,
                                   ),
                                   textAlign: TextAlign.center,
@@ -426,11 +426,11 @@ class _FarmSetupScreenState extends ConsumerState<FarmSetupScreen>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Theme.of(context).shadowColor.withValues(alpha: 0.05),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -463,7 +463,7 @@ class _FarmSetupScreenState extends ConsumerState<FarmSetupScreen>
                       title,
                       style: TextStyles.bodyLarge.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                     if (subtitle != null) ...[
@@ -471,7 +471,7 @@ class _FarmSetupScreenState extends ConsumerState<FarmSetupScreen>
                       Text(
                         subtitle,
                         style: TextStyles.bodySmall.copyWith(
-                          color: AppColors.textSecondary,
+                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                         ),
                       ),
                     ],
@@ -502,31 +502,33 @@ class _FarmSetupScreenState extends ConsumerState<FarmSetupScreen>
           label,
           style: TextStyles.bodyMedium.copyWith(
             fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            color: Colors.grey.shade50,
+            color: Theme.of(context).colorScheme.surfaceVariant.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: controller.text.isNotEmpty ? AppColors.primary : Colors.grey.shade300,
+              color: controller.text.isNotEmpty ? AppColors.primary : Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
             ),
           ),
           child: TextField(
             controller: controller,
             focusNode: focusNode,
             keyboardType: keyboardType,
-            style: TextStyles.bodyLarge,
+            style: TextStyles.bodyLarge.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: TextStyles.bodyLarge.copyWith(
-                color: Colors.grey.shade400,
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
               ),
               prefixIcon: Icon(
                 icon,
-                color: Colors.grey.shade500,
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
                 size: 20,
               ),
               border: InputBorder.none,
@@ -547,17 +549,18 @@ class _FarmSetupScreenState extends ConsumerState<FarmSetupScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: Colors.grey.shade50,
+        color: Theme.of(context).colorScheme.surfaceVariant.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3)),
       ),
       child: DropdownButton<String>(
         value: value,
         isExpanded: true,
         underline: Container(),
         style: TextStyles.bodyLarge.copyWith(
-          color: AppColors.textPrimary,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
+        dropdownColor: Theme.of(context).colorScheme.surface,
         items: items.map((String item) {
           return DropdownMenuItem<String>(
             value: item,
@@ -580,10 +583,10 @@ class _FarmSetupScreenState extends ConsumerState<FarmSetupScreen>
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : Colors.white,
+          color: isSelected ? AppColors.primary : Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? AppColors.primary : Colors.grey.shade300,
+            color: isSelected ? AppColors.primary : Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
           ),
           boxShadow: isSelected
               ? [
@@ -598,7 +601,7 @@ class _FarmSetupScreenState extends ConsumerState<FarmSetupScreen>
         child: Text(
           label,
           style: TextStyles.bodyMedium.copyWith(
-            color: isSelected ? Colors.white : AppColors.textPrimary,
+            color: isSelected ? Colors.white : Theme.of(context).colorScheme.onSurface,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
           ),
         ),

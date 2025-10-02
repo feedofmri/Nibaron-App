@@ -104,7 +104,7 @@ class _OnboardingSlidesScreenState extends ConsumerState<OnboardingSlidesScreen>
 
     return Scaffold(
       body: Container(
-        color: AppColors.background,
+        color: Theme.of(context).colorScheme.surface,
         child: SafeArea(
           child: FadeTransition(
             opacity: _fadeAnimation,
@@ -128,7 +128,7 @@ class _OnboardingSlidesScreenState extends ConsumerState<OnboardingSlidesScreen>
                             decoration: BoxDecoration(
                               color: _currentPage == index
                                   ? _slides.isNotEmpty ? _slides[_currentPage].gradient[0] : AppColors.primary
-                                  : Colors.grey.shade300,
+                                  : Theme.of(context).colorScheme.outline.withValues(alpha: 0.5),
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -143,11 +143,11 @@ class _OnboardingSlidesScreenState extends ConsumerState<OnboardingSlidesScreen>
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.9),
+                              color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.9),
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.1),
+                                  color: Theme.of(context).shadowColor.withValues(alpha: 0.1),
                                   blurRadius: 10,
                                   offset: const Offset(0, 2),
                                 ),
@@ -156,7 +156,7 @@ class _OnboardingSlidesScreenState extends ConsumerState<OnboardingSlidesScreen>
                             child: Text(
                               l10n.skip,
                               style: TextStyles.bodyMedium.copyWith(
-                                color: AppColors.textSecondary,
+                                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -231,7 +231,7 @@ class _OnboardingSlidesScreenState extends ConsumerState<OnboardingSlidesScreen>
                             color: AppColors.primary,
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withOpacity(0.4),
+                                color: AppColors.primary.withValues(alpha: 0.4),
                                 blurRadius: 15,
                                 offset: const Offset(0, 6),
                               ),
@@ -246,14 +246,18 @@ class _OnboardingSlidesScreenState extends ConsumerState<OnboardingSlidesScreen>
                                 padding: const EdgeInsets.symmetric(horizontal: 20),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(
-                                      _currentPage == _slides.length - 1
-                                          ? l10n.getStarted
-                                          : l10n.next,
-                                      style: TextStyles.bodyLarge.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                    Flexible(
+                                      child: Text(
+                                        _currentPage == _slides.length - 1
+                                            ? l10n.getStarted
+                                            : l10n.next,
+                                        style: TextStyles.bodyLarge.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
                                     const SizedBox(width: 8),
@@ -342,11 +346,11 @@ class _OnboardingSlidesScreenState extends ConsumerState<OnboardingSlidesScreen>
           Container(
             padding: const EdgeInsets.all(32),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.95),
+              color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.95),
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
+                  color: Theme.of(context).shadowColor.withValues(alpha: 0.08),
                   blurRadius: 30,
                   offset: const Offset(0, 15),
                 ),
@@ -371,7 +375,7 @@ class _OnboardingSlidesScreenState extends ConsumerState<OnboardingSlidesScreen>
                 Text(
                   slide.description,
                   style: TextStyles.bodyLarge.copyWith(
-                    color: AppColors.textSecondary,
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                     height: 1.6,
                   ),
                   textAlign: TextAlign.center,

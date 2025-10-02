@@ -245,7 +245,7 @@ class _RecommendationListItemState extends ConsumerState<RecommendationListItem>
         label = l10n.planting;
         break;
       default:
-        label = 'সাধারণ';
+        label = 'General';
     }
 
     return Container(

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'weather_model.g.dart';
 
@@ -87,7 +88,12 @@ class WeatherModel {
     );
   }
 
-  String get temperatureText => '${temperature.round()}°সে';
+  String get temperatureText => '${temperature.round()}°C';
   String get humidityText => '$humidity%';
-  String get windSpeedText => '${windSpeed.round()} কি.মি./ঘ';
+  String get windSpeedText => '${windSpeed.round()} km/h';
+
+  String getLocalizedTemperatureText(AppLocalizations l10n) =>
+      '${temperature.round()}${l10n.celsiusUnit}';
+  String getLocalizedWindSpeedText(AppLocalizations l10n) =>
+      '${windSpeed.round()} ${l10n.kmPerHourUnit}';
 }

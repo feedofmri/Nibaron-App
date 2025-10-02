@@ -88,6 +88,7 @@
   "goodAfternoon": "Good Afternoon",
   "goodEvening": "Good Evening",
   "goodNight": "Good Night",
+  "farmer": "Farmer",
   "todaysRecommendation": "Today's Recommendation",
   "quickActions": "Quick Actions",
   "calendar": "Calendar",
@@ -197,5 +198,15 @@
   "shareYourExperience": "Share your experience...",
   "submit": "Submit",
   "viewDetails": "View Details",
-  "support": "Support"
+  "support": "Support",
+  "celsiusUnit": "°C",
+  "kmPerHourUnit": "km/h",
+  "searchRecommendations": "Search recommendations...",
+  "weatherWarning": "Weather Warning",
+  "irrigationTime": "Irrigation Time",
+  "heavyRainExpected": "Heavy rain expected tomorrow",
+  "irrigationReminder": "Time to irrigate this evening",
+  "minutesAgo": "minutes ago",
+  "hoursAgo": "hours ago",
+  "markAllAsRead": "Mark All as Read"
 }

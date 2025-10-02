@@ -82,7 +82,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen>
 
     return Scaffold(
       body: Container(
-        color: AppColors.background,
+        color: Theme.of(context).colorScheme.background,
         child: SafeArea(
           child: FadeTransition(
             opacity: _fadeAnimation,
@@ -101,15 +101,15 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen>
                             onPressed: () => Navigator.pop(context),
                             icon: const Icon(Icons.arrow_back_rounded),
                             style: IconButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: AppColors.textPrimary,
+                              backgroundColor: Theme.of(context).colorScheme.surface,
+                              foregroundColor: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                           const Spacer(),
                           Text(
                             '2/4',
                             style: TextStyles.bodyMedium.copyWith(
-                              color: AppColors.textSecondary,
+                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -132,7 +132,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen>
                                 borderRadius: BorderRadius.circular(25),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppColors.primary.withOpacity(0.3),
+                                    color: AppColors.primary.withValues(alpha: 0.3),
                                     blurRadius: 20,
                                     offset: const Offset(0, 10),
                                   ),
@@ -151,11 +151,11 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen>
                             Container(
                               padding: const EdgeInsets.all(24),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.9),
+                                color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.9),
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.05),
+                                    color: Theme.of(context).shadowColor.withValues(alpha: 0.05),
                                     blurRadius: 20,
                                     offset: const Offset(0, 10),
                                   ),
@@ -166,7 +166,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen>
                                   Text(
                                     '📱 ${l10n.phoneNumber}',
                                     style: TextStyles.headline2.copyWith(
-                                      color: AppColors.textPrimary,
+                                      color: Theme.of(context).colorScheme.onSurface,
                                       fontWeight: FontWeight.bold,
                                     ),
                                     textAlign: TextAlign.center,
@@ -175,7 +175,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen>
                                   Text(
                                     l10n.enterPhoneNumber,
                                     style: TextStyles.bodyLarge.copyWith(
-                                      color: AppColors.textSecondary,
+                                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                                       height: 1.5,
                                     ),
                                     textAlign: TextAlign.center,
@@ -190,15 +190,15 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen>
                             Container(
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Theme.of(context).colorScheme.surface,
                                 borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
-                                  color: _isValidPhone ? AppColors.primary : Colors.grey.shade300,
+                                  color: _isValidPhone ? AppColors.primary : Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
                                   width: _isValidPhone ? 2 : 1,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.05),
+                                    color: Theme.of(context).shadowColor.withValues(alpha: 0.05),
                                     blurRadius: 10,
                                     offset: const Offset(0, 5),
                                   ),
@@ -212,7 +212,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen>
                                       Container(
                                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                         decoration: BoxDecoration(
-                                          color: Colors.grey.shade100,
+                                          color: Theme.of(context).colorScheme.surfaceVariant.withValues(alpha: 0.5),
                                           borderRadius: BorderRadius.circular(8),
                                         ),
                                         child: Row(
@@ -227,7 +227,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen>
                                               '+880',
                                               style: TextStyles.bodyLarge.copyWith(
                                                 fontWeight: FontWeight.w600,
-                                                color: AppColors.textPrimary,
+                                                color: Theme.of(context).colorScheme.onSurface,
                                               ),
                                             ),
                                           ],
@@ -251,7 +251,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen>
                                           decoration: InputDecoration(
                                             hintText: '01XXX XXX XXX',
                                             hintStyle: TextStyles.bodyLarge.copyWith(
-                                              color: Colors.grey.shade400,
+                                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
                                             ),
                                             border: InputBorder.none,
                                             contentPadding: EdgeInsets.zero,

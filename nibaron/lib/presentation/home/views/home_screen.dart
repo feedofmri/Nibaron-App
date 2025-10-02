@@ -8,7 +8,6 @@ import '../widgets/hazard_alert_banner.dart';
 import '../widgets/recommendation_card.dart';
 import '../widgets/quick_actions_grid.dart';
 import '../widgets/refresh_indicator_custom.dart';
-import '../../../config/constants/string_constants.dart';
 import '../../../config/theme/text_styles.dart';
 import '../../../config/constants/asset_constants.dart';
 
@@ -74,7 +73,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             Text(
               l10n.appName,
               style: TextStyles.headline3.copyWith(
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
               ),
             ),

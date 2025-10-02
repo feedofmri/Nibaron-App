@@ -91,7 +91,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
       body: Container(
         width: size.width,
         height: size.height,
-        color: AppColors.background,
+        color: Theme.of(context).colorScheme.background,
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -110,7 +110,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
                       borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withOpacity(0.3),
+                          color: AppColors.primary.withValues(alpha: 0.3),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -139,11 +139,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
                           Container(
                             padding: const EdgeInsets.all(32),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.9),
+                              color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.9),
                               borderRadius: BorderRadius.circular(24),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.08),
+                                  color: Theme.of(context).shadowColor.withValues(alpha: 0.08),
                                   blurRadius: 30,
                                   offset: const Offset(0, 15),
                                 ),
@@ -164,7 +164,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
                                 Text(
                                   l10n.smartFarmingAssistant,
                                   style: TextStyles.headline3.copyWith(
-                                    color: AppColors.textSecondary,
+                                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                                     fontWeight: FontWeight.w600,
                                   ),
                                   textAlign: TextAlign.center,
@@ -182,7 +182,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
                                 Text(
                                   l10n.appDescription,
                                   style: TextStyles.bodyLarge.copyWith(
-                                    color: AppColors.textSecondary,
+                                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
                                     height: 1.6,
                                   ),
                                   textAlign: TextAlign.center,
@@ -236,11 +236,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
                     height: 56,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color: !_isLoading ? AppColors.primary : Colors.grey.shade300,
+                      color: !_isLoading ? AppColors.primary : Theme.of(context).colorScheme.outline,
                       boxShadow: !_isLoading
                           ? [
                               BoxShadow(
-                                color: AppColors.primary.withOpacity(0.4),
+                                color: AppColors.primary.withValues(alpha: 0.4),
                                 blurRadius: 15,
                                 offset: const Offset(0, 8),
                               ),
@@ -315,10 +315,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.7),
+        color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: color.withOpacity(0.2),
+          color: color.withValues(alpha: 0.2),
         ),
       ),
       child: Column(
@@ -327,7 +327,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -341,7 +341,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
             title,
             style: TextStyles.bodySmall.copyWith(
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
         ],

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../data/models/recommendation/recommendation_model.dart';
-import '../../../config/constants/string_constants.dart';
 import '../../../config/theme/text_styles.dart';
-import '../../../config/constants/asset_constants.dart';
 import '../../common/widgets/voice_button.dart';
 
 class RecommendationCard extends ConsumerWidget {
@@ -49,7 +47,7 @@ class RecommendationCard extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        StringConstants.todaysRecommendation,
+                        l10n.todaysRecommendation,
                         style: TextStyles.caption.copyWith(
                           color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                         ),
@@ -88,7 +86,7 @@ class RecommendationCard extends ConsumerWidget {
                     child: ElevatedButton.icon(
                       onPressed: onCompleted,
                       icon: const Icon(Icons.check, size: 20),
-                      label: Text(StringConstants.completed),
+                      label: Text(l10n.completed),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
@@ -121,7 +119,7 @@ class RecommendationCard extends ConsumerWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      StringConstants.completed,
+                      l10n.completed,
                       style: TextStyles.bodySmall.copyWith(
                         color: Colors.green,
                         fontWeight: FontWeight.w600,

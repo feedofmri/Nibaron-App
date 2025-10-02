@@ -145,7 +145,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen>
 
     return Scaffold(
       body: Container(
-        color: AppColors.background,
+        color: Theme.of(context).colorScheme.background,
         child: SafeArea(
           child: FadeTransition(
             opacity: _fadeAnimation,
@@ -164,15 +164,15 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen>
                             onPressed: () => Navigator.pop(context),
                             icon: const Icon(Icons.arrow_back_rounded),
                             style: IconButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: AppColors.textPrimary,
+                              backgroundColor: Theme.of(context).colorScheme.surface,
+                              foregroundColor: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                           const Spacer(),
                           Text(
                             '3/4',
                             style: TextStyles.bodyMedium.copyWith(
-                              color: AppColors.textSecondary,
+                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -217,11 +217,11 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen>
                             Container(
                               padding: const EdgeInsets.all(24),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.9),
+                                color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.9),
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.05),
+                                    color: Theme.of(context).shadowColor.withValues(alpha: 0.05),
                                     blurRadius: 20,
                                     offset: const Offset(0, 10),
                                   ),
@@ -232,7 +232,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen>
                                   Text(
                                     l10n.verifyOtp,
                                     style: TextStyles.headline2.copyWith(
-                                      color: AppColors.textPrimary,
+                                      color: Theme.of(context).colorScheme.onSurface,
                                       fontWeight: FontWeight.bold,
                                     ),
                                     textAlign: TextAlign.center,
@@ -241,7 +241,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen>
                                   Text(
                                     l10n.enterOtpMessage,
                                     style: TextStyles.bodyLarge.copyWith(
-                                      color: AppColors.textSecondary,
+                                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                                       height: 1.5,
                                     ),
                                     textAlign: TextAlign.center,
@@ -265,11 +265,11 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen>
                             Container(
                               padding: const EdgeInsets.all(24),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Theme.of(context).colorScheme.surface,
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.05),
+                                    color: Theme.of(context).shadowColor.withValues(alpha: 0.05),
                                     blurRadius: 15,
                                     offset: const Offset(0, 5),
                                   ),
@@ -280,7 +280,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen>
                                   Text(
                                     l10n.enterOtpCode,
                                     style: TextStyles.bodyMedium.copyWith(
-                                      color: AppColors.textSecondary,
+                                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -301,10 +301,10 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen>
                             Container(
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                color: AppColors.primary.withOpacity(0.1),
+                                color: AppColors.primary.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
-                                  color: AppColors.primary.withOpacity(0.3),
+                                  color: AppColors.primary.withValues(alpha: 0.3),
                                 ),
                               ),
                               child: Row(
@@ -321,14 +321,15 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen>
                                         ? l10n.didntReceiveCode
                                         : l10n.resendInSeconds(_resendCountdown),
                                     style: TextStyles.bodyMedium.copyWith(
-                                      color: AppColors.textPrimary,
+                                      color: Theme.of(context).colorScheme.onSurface,
                                     ),
                                   ),
                                   if (_canResend) ...[
+                                    const SizedBox(width: 4),
                                     GestureDetector(
                                       onTap: _resendOtp,
                                       child: Text(
-                                        l10n.resend,
+                                        ' ${l10n.resend}',
                                         style: TextStyles.bodyMedium.copyWith(
                                           color: AppColors.primary,
                                           fontWeight: FontWeight.bold,
@@ -436,12 +437,12 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen>
       width: 45,
       height: 45,
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
+        color: Theme.of(context).colorScheme.surfaceVariant.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: _otpControllers[index].text.isNotEmpty
               ? AppColors.primary
-              : Colors.grey.shade300,
+              : Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
           width: _otpControllers[index].text.isNotEmpty ? 2 : 1,
         ),
       ),
@@ -453,7 +454,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen>
         maxLength: 1,
         style: TextStyles.headline3.copyWith(
           fontWeight: FontWeight.bold,
-          color: AppColors.textPrimary,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
         inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
