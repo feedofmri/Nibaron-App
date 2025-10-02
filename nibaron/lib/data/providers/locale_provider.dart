@@ -1,0 +1,41 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
+import '../../core/services/storage_service.dart';
+import '../../core/dependency_injection/service_locator.dart';
+
+final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>(
+  (ref) => LocaleNotifier(),
+);
+
+class LocaleNotifier extends StateNotifier<Locale> {
+  LocaleNotifier() : super(const Locale('bn', 'BD')) {
+    _loadLocale();
+  }
+
+  final StorageService _storageService = sl<StorageService>();
+
+  Future<void> _loadLocale() async {
+    final languageCode = await _storageService.getString('language_code');
+    if (languageCode != null) {
+      switch (languageCode) {
+        case 'bn':
+          state = const Locale('bn', 'BD');
+          break;
+        case 'en':
+          state = const Locale('en', 'US');
+          break;
+        default:
+          state = const Locale('bn', 'BD');
+          break;
+      }
+    }
+  }
+
+  Future<void> setLocale(Locale locale) async {
+    state = locale;
+    await _storageService.setString('language_code', locale.languageCode);
+  }
+
+  bool get isBangla => state.languageCode == 'bn';
+  bool get isEnglish => state.languageCode == 'en';
+}
