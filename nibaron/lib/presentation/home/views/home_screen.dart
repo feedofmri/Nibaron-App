@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../view_models/home_view_model.dart';
 import '../widgets/greeting_header.dart';
 import '../widgets/weather_card.dart';
@@ -30,6 +31,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final homeState = ref.watch(homeViewModelProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -70,7 +72,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
             const SizedBox(width: 12),
             Text(
-              StringConstants.appName,
+              l10n.appName,
               style: TextStyles.headline3.copyWith(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
@@ -136,7 +138,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
               // Quick Actions Grid
               Text(
-                StringConstants.quickActions,
+                l10n.quickActions,
                 style: TextStyles.headline3,
               ),
               const SizedBox(height: 12),

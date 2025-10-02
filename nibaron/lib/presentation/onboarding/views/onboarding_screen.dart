@@ -152,7 +152,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
                             child: Column(
                               children: [
                                 Text(
-                                  '🌾 ${StringConstants.appNameBengali}',
+                                  '🌾 ${l10n.appName}',
                                   style: TextStyles.headline1.copyWith(
                                     color: AppColors.primary,
                                     fontWeight: FontWeight.bold,

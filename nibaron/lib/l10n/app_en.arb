@@ -94,6 +94,7 @@
   "recommendations": "Recommendations",
   "farmingCalendar": "Farming Calendar",
   "weather": "Weather",
+  "support": "Support",
   "weatherForecast": "Weather Forecast",
   "currentWeather": "Current Weather",
   "humidity": "Humidity",
@@ -198,4 +199,3 @@
   "viewDetails": "View Details",
   "support": "Support"
 }
-

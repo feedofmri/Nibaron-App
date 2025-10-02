@@ -9,7 +9,7 @@ final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>(
 );
 
 class LocaleNotifier extends StateNotifier<Locale> {
-  LocaleNotifier() : super(const Locale('bn', 'BD')) {
+  LocaleNotifier() : super(const Locale('en', 'US')) { // Default to English
     _loadLocale();
   }
 
@@ -26,7 +26,7 @@ class LocaleNotifier extends StateNotifier<Locale> {
           state = const Locale('en', 'US');
           break;
         default:
-          state = const Locale('bn', 'BD');
+          state = const Locale('en', 'US'); // Default to English
           break;
       }
     }
