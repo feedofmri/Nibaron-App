@@ -39,7 +39,7 @@ class LightTheme {
       cardTheme: CardTheme(
         color: AppColors.lightSurface,
         elevation: 2,
-        shadowColor: Colors.black.withOpacity(0.1),
+        shadowColor: Colors.black.withValues(alpha: 0.1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -51,7 +51,7 @@ class LightTheme {
           backgroundColor: AppColors.lightPrimary,
           foregroundColor: Colors.white,
           elevation: 2,
-          shadowColor: AppColors.lightPrimary.withOpacity(0.3),
+          shadowColor: AppColors.lightPrimary.withValues(alpha: 0.3),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),

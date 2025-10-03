@@ -29,7 +29,6 @@ class NetworkExceptions implements Exception {
         return NetworkExceptions('Certificate error. Please check your connection security.');
 
       case DioExceptionType.unknown:
-      default:
         return NetworkExceptions('Something went wrong. Please try again.');
     }
   }

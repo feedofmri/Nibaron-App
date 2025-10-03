@@ -6,7 +6,7 @@ import '../../home/views/home_screen.dart';
 import '../../calendar/views/calendar_screen.dart';
 import '../../recommendations/views/recommendations_screen.dart';
 import '../../action_log/views/action_log_screen.dart';
-import '../../profile/views/profile_screen.dart';
+import '../../shop/views/shop_screen.dart';
 import '../providers/navigation_provider.dart';
 
 class MainNavigationScreen extends ConsumerWidget {
@@ -21,7 +21,7 @@ class MainNavigationScreen extends ConsumerWidget {
       const CalendarScreen(),
       const RecommendationsScreen(),
       const ActionLogScreen(),
-      const ProfileScreen(),
+      const ShopScreen(),
     ];
 
     final l10n = AppLocalizations.of(context)!;
@@ -76,8 +76,8 @@ class MainNavigationScreen extends ConsumerWidget {
               label: l10n.actionLog,
             ),
             BottomNavigationBarItem(
-              icon: _buildNavIcon(Icons.person_outline, Icons.person, 4, currentIndex),
-              label: l10n.profile,
+              icon: _buildNavIcon(Icons.store_outlined, Icons.store, 4, currentIndex),
+              label: l10n.shop,
             ),
           ],
         ),

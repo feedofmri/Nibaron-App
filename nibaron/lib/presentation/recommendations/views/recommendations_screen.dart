@@ -6,6 +6,7 @@ import '../widgets/recommendation_filter_chips.dart';
 import '../widgets/recommendation_search_bar.dart';
 import '../widgets/recommendation_list_item.dart';
 import '../../../config/theme/text_styles.dart';
+import '../../common/widgets/custom_app_bar.dart';
 
 class RecommendationsScreen extends ConsumerWidget {
   const RecommendationsScreen({super.key});
@@ -16,11 +17,9 @@ class RecommendationsScreen extends ConsumerWidget {
     final state = ref.watch(recommendationsViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.cropCareRecommendations),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
+      appBar: CustomAppBar(
+        title: l10n.cropCareRecommendations,
+        additionalActions: [
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () => ref.read(recommendationsViewModelProvider.notifier).refresh(),

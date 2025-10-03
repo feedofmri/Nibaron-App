@@ -43,6 +43,7 @@ dependencies:
   dio: ^5.4.1
   retrofit: ^4.1.0
   json_annotation: ^4.8.1
+  http: ^1.1.2
 
   # Local Storage
   shared_preferences: ^2.2.2

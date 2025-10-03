@@ -8,6 +8,7 @@ import '../view_models/action_log_view_model.dart';
 import '../widgets/action_log_card.dart';
 import '../widgets/filter_chip_group.dart';
 import '../widgets/add_log_dialog.dart';
+import '../../common/widgets/custom_app_bar.dart';
 
 class ActionLogScreen extends ConsumerStatefulWidget {
   const ActionLogScreen({super.key});
@@ -53,32 +54,14 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen>
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.actionHistory),
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
+      appBar: CustomAppBar(
+        title: l10n.actionLog,
+        additionalActions: [
           IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () => _showSearchDialog(context),
-          ),
-          IconButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: () => _showFilterDialog(context),
+            icon: const Icon(Icons.add),
+            onPressed: () => _showAddLogDialog(context),
           ),
         ],
-        bottom: TabBar(
-          controller: _tabController,
-          indicatorColor: Colors.white,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white70,
-          tabs: [
-            Tab(text: l10n.recent, icon: const Icon(Icons.access_time)),
-            Tab(text: l10n.thisWeek, icon: const Icon(Icons.calendar_view_week)),
-            Tab(text: l10n.thisMonth, icon: const Icon(Icons.calendar_view_month)),
-          ],
-        ),
       ),
       body: Column(
         children: [
@@ -146,6 +129,8 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen>
   }
 
   Widget _buildLogList(List<ActionLogEntry> logs) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (logs.isEmpty) {
       return Center(
         child: Column(
@@ -167,7 +152,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen>
             TextButton.icon(
               onPressed: () => _showAddLogDialog(context),
               icon: const Icon(Icons.add),
-              label: const Text('Add Activity'),
+              label: Text(l10n.addTask),
             ),
           ],
         ),
@@ -191,7 +176,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen>
               arguments: log,
             ),
             onEdit: () => _showEditLogDialog(context, log),
-            onDelete: () => _deleteLog(log),
+            onDelete: () => _deleteLog(context, log),
           );
         },
       ),
@@ -288,25 +273,26 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen>
     );
   }
 
-  void _deleteLog(ActionLogEntry log) {
+  void _deleteLog(BuildContext context, ActionLogEntry log) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Activity'),
-        content: Text('Are you sure you want to delete "${log.title}"?'),
+        title: Text(l10n.delete),
+        content: Text('${l10n.areYouSure} "${log.title}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () {
               ref.read(actionLogViewModelProvider.notifier).deleteLog(log.id);
               Navigator.pop(context);
             },
-            child: const Text('Delete'),
+            child: Text(l10n.delete),
             style: TextButton.styleFrom(
-              foregroundColor: AppColors.error,
+              foregroundColor: Theme.of(context).colorScheme.error,
             ),
           ),
         ],

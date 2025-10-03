@@ -2,16 +2,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/models/weather/weather_model.dart';
 import '../../../data/models/recommendation/recommendation_model.dart';
 import '../../../core/services/location_service.dart';
+import '../../../core/services/weather_service.dart';
 import '../../../core/dependency_injection/service_locator.dart';
 
 final homeViewModelProvider = StateNotifierProvider<HomeViewModel, HomeState>(
-  (ref) => HomeViewModel(),
+  (ref) => HomeViewModel(ref),
 );
 
 class HomeViewModel extends StateNotifier<HomeState> {
-  HomeViewModel() : super(const HomeState());
+  final Ref _ref;
+
+  HomeViewModel(this._ref) : super(const HomeState());
 
   final LocationService _locationService = sl<LocationService>();
+  final WeatherService _weatherService = WeatherService();
 
   Future<void> loadData() async {
     if (state.isLoading) return;
@@ -29,6 +33,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
       state = state.copyWith(isLoading: false);
     } catch (e) {
+      print('Home data loading error: $e');
       state = state.copyWith(
         isLoading: false,
         error: e.toString(),
@@ -42,73 +47,48 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   Future<void> _loadWeatherData() async {
     try {
-      // Get current location
-      final position = await _locationService.getCurrentLocation();
-      if (position == null) return;
-
-      // Create mock weather data for demo
-      final weather = WeatherModel(
-        location: 'Sirajganj',
-        latitude: position.latitude,
-        longitude: position.longitude,
-        temperature: 32.0,
-        feelsLike: 35.0,
-        condition: 'partly_cloudy',
-        description: 'Partly Cloudy',
-        humidity: 75,
-        windSpeed: 12.0,
-        windDirection: 180.0,
-        pressure: 1013.25,
-        visibility: 10.0,
-        uvIndex: 7,
-        precipitation: 0.0,
-        timestamp: DateTime.now(),
-        sunrise: DateTime.now().subtract(const Duration(hours: 2)),
-        sunset: DateTime.now().add(const Duration(hours: 6)),
-      );
+      // Use the weather service to get real weather data with better error handling
+      final weather = await _weatherService.getCurrentWeather();
 
       state = state.copyWith(currentWeather: weather);
+      print('Weather data loaded successfully: ${weather.location} - ${weather.temperature}°C');
     } catch (e) {
-      print('Error loading weather data: $e');
+      print('Weather loading error: $e');
+      // No more fallback to mock data - just set error state
+      state = state.copyWith(
+        error: 'Unable to fetch weather data: ${e.toString()}',
+      );
     }
   }
 
   Future<void> _loadRecommendations() async {
     try {
-      // Create mock recommendation for demo
-      final recommendation = RecommendationModel(
-        id: '1',
-        farmId: 'farm1',
-        cropId: 'crop1',
-        title: 'Time for Irrigation',
-        description: '20mm water needed. Irrigate in the evening.',
-        category: 'irrigation',
-        priority: 'high',
-        recommendedDate: DateTime.now(),
-        expiryDate: DateTime.now().add(const Duration(hours: 12)),
-        audioUrl: null,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-      );
-
-      state = state.copyWith(todayRecommendation: recommendation);
+      // TODO: Replace with actual recommendation service when available
+      // For now, only set recommendations if we have real data from API
+      // Remove mock data completely
+      state = state.copyWith(todayRecommendation: null);
     } catch (e) {
       print('Error loading recommendations: $e');
+      state = state.copyWith(todayRecommendation: null);
     }
   }
 
   Future<void> _loadHazards() async {
     try {
-      // Mock hazard data - in real app, this would come from API
+      // TODO: Replace with actual hazard service when available
+      // For now, only set hazards if we have real data from API
+      // Remove mock data completely
       state = state.copyWith(activeHazards: []);
     } catch (e) {
       print('Error loading hazards: $e');
+      state = state.copyWith(activeHazards: []);
     }
   }
 
   Future<void> _checkNotifications() async {
     try {
-      // Mock notification check
+      // TODO: Replace with actual notification service when available
+      // For now, only set notifications if we have real data from API
       state = state.copyWith(hasUnreadNotifications: false);
     } catch (e) {
       print('Error checking notifications: $e');

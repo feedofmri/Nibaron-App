@@ -8,6 +8,7 @@ import '../../../data/models/calendar_event.dart';
 import '../view_models/calendar_view_model.dart';
 import '../widgets/event_card.dart';
 import '../widgets/add_event_dialog.dart';
+import '../../common/widgets/custom_app_bar.dart';
 
 class CalendarScreen extends ConsumerStatefulWidget {
   const CalendarScreen({super.key});
@@ -66,22 +67,9 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.farmingCalendar),
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.today),
-            onPressed: () {
-              setState(() {
-                _focusedDay = DateTime.now();
-                _selectedDay = DateTime.now();
-              });
-              _selectedEvents.value = _getEventsForDay(DateTime.now());
-            },
-          ),
+      appBar: CustomAppBar(
+        title: l10n.farmingCalendar,
+        additionalActions: [
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () => _showAddEventDialog(context),

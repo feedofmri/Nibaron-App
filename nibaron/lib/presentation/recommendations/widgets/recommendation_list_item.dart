@@ -4,6 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audioplayers/audioplayers.dart';
 import '../../../data/models/recommendation/recommendation_model.dart';
 import '../../../config/theme/text_styles.dart';
+import '../../../core/services/text_to_speech_service.dart';
+import '../../../core/dependency_injection/service_locator.dart';
 
 class RecommendationListItem extends ConsumerStatefulWidget {
   final RecommendationModel recommendation;
@@ -25,6 +27,7 @@ class _RecommendationListItemState extends ConsumerState<RecommendationListItem>
     with TickerProviderStateMixin {
   late AnimationController _animationController;
   late AudioPlayer _audioPlayer;
+  late TextToSpeechService _ttsService;
   bool _isPlaying = false;
 
   @override
@@ -35,6 +38,16 @@ class _RecommendationListItemState extends ConsumerState<RecommendationListItem>
       vsync: this,
     );
     _audioPlayer = AudioPlayer();
+    _ttsService = sl<TextToSpeechService>();
+    _initializeTTS();
+  }
+
+  Future<void> _initializeTTS() async {
+    try {
+      await _ttsService.initialize();
+    } catch (e) {
+      print('TTS initialization error: $e');
+    }
   }
 
   @override
@@ -264,25 +277,116 @@ class _RecommendationListItemState extends ConsumerState<RecommendationListItem>
   }
 
   Future<void> _toggleAudio() async {
-    if (widget.recommendation.audioUrl == null) return;
+    if (_isPlaying) {
+      await _stopAudio();
+      return;
+    }
 
+    // Try to play from URL first, then fallback to TTS
+    if (widget.recommendation.audioUrl != null && widget.recommendation.audioUrl!.isNotEmpty) {
+      await _playAudioFromUrl();
+    } else {
+      await _playTextToSpeech();
+    }
+  }
+
+  Future<void> _playAudioFromUrl() async {
     try {
-      if (_isPlaying) {
-        await _audioPlayer.stop();
-        setState(() => _isPlaying = false);
-      } else {
-        // In a real app, you would play from the actual audio URL
-        // For now, we'll just simulate the playing state
-        setState(() => _isPlaying = true);
+      setState(() => _isPlaying = true);
 
-        // Simulate audio duration
-        Future.delayed(const Duration(seconds: 3), () {
+      await _audioPlayer.play(UrlSource(widget.recommendation.audioUrl!));
+
+      // Listen for completion
+      _audioPlayer.onPlayerComplete.listen((_) {
+        if (mounted) {
+          setState(() => _isPlaying = false);
+        }
+      });
+
+      // Listen for state changes
+      _audioPlayer.onPlayerStateChanged.listen((state) {
+        if (state == PlayerState.stopped || state == PlayerState.completed) {
           if (mounted) {
             setState(() => _isPlaying = false);
           }
-        });
-      }
+        }
+      });
     } catch (e) {
+      print('Audio URL playback error: $e');
+      setState(() => _isPlaying = false);
+
+      // Fallback to TTS
+      await _playTextToSpeech();
+    }
+  }
+
+  Future<void> _playTextToSpeech() async {
+    try {
+      setState(() => _isPlaying = true);
+
+      // Create a comprehensive text to speak
+      final textToSpeak = '${widget.recommendation.title}. ${widget.recommendation.description}';
+
+      // Show visual feedback
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.volume_up, color: Colors.white),
+                const SizedBox(width: 8),
+                Expanded(child: Text('Playing: ${widget.recommendation.title}')),
+              ],
+            ),
+            duration: Duration(seconds: (textToSpeak.length / 15).ceil().clamp(3, 8)),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
+        );
+      }
+
+      // Speak the text
+      await _ttsService.speak(textToSpeak, language: 'bn-BD'); // Bengali language
+
+      // Simulate completion (TTS doesn't always provide completion callback)
+      final estimatedDuration = Duration(
+        seconds: (textToSpeak.length / 15).ceil().clamp(3, 10),
+      );
+
+      Future.delayed(estimatedDuration, () {
+        if (mounted) {
+          setState(() => _isPlaying = false);
+        }
+      });
+
+    } catch (e) {
+      print('TTS playback error: $e');
+      setState(() => _isPlaying = false);
+
+      // Show error message
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.error_outline, color: Colors.white),
+                SizedBox(width: 8),
+                Text('Audio playback failed'),
+              ],
+            ),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _stopAudio() async {
+    try {
+      await _audioPlayer.stop();
+      await _ttsService.stop();
+      setState(() => _isPlaying = false);
+    } catch (e) {
+      print('Stop audio error: $e');
       setState(() => _isPlaying = false);
     }
   }

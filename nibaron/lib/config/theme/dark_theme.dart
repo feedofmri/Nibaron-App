@@ -39,7 +39,7 @@ class DarkTheme {
       cardTheme: CardTheme(
         color: AppColors.darkSurface,
         elevation: 4,
-        shadowColor: Colors.black.withOpacity(0.3),
+        shadowColor: Colors.black.withValues(alpha: 0.3),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -51,7 +51,7 @@ class DarkTheme {
           backgroundColor: AppColors.darkPrimary,
           foregroundColor: Colors.white,
           elevation: 3,
-          shadowColor: AppColors.darkPrimary.withOpacity(0.4),
+          shadowColor: AppColors.darkPrimary.withValues(alpha: 0.4),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -98,7 +98,7 @@ class DarkTheme {
       // Chip theme
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.darkSurface,
-        selectedColor: AppColors.darkPrimary.withOpacity(0.3),
+        selectedColor: AppColors.darkPrimary.withValues(alpha: 0.3),
         labelStyle: TextStyles.label.copyWith(color: AppColors.darkTextPrimary),
         side: const BorderSide(color: AppColors.darkBorder),
         shape: RoundedRectangleBorder(

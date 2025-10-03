@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../view_models/home_view_model.dart';
-import '../widgets/greeting_header.dart';
 import '../widgets/weather_card.dart';
 import '../widgets/hazard_alert_banner.dart';
 import '../widgets/recommendation_card.dart';
@@ -10,6 +9,7 @@ import '../widgets/quick_actions_grid.dart';
 import '../widgets/refresh_indicator_custom.dart';
 import '../../../config/theme/text_styles.dart';
 import '../../../config/constants/asset_constants.dart';
+import '../../common/widgets/custom_app_bar.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -33,24 +33,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+      appBar: CustomAppBar(
+        showBackButton: false,
+        titleWidget: Row(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.asset(
                 AssetConstants.nibaronIcon,
-                width: 38,
-                height: 38,
+                width: 32,
+                height: 32,
                 fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
-                    width: 38,
-                    height: 38,
+                    width: 32,
+                    height: 32,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
@@ -63,7 +60,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: const Icon(
                       Icons.agriculture,
                       color: Colors.white,
-                      size: 20,
+                      size: 18,
                     ),
                   );
                 },
@@ -75,35 +72,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               style: TextStyles.headline3.copyWith(
                 color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
+                fontSize: 18,
               ),
             ),
           ],
         ),
-        actions: [
-          const GreetingHeader(),
-          const SizedBox(width: 8),
-          IconButton(
-            icon: Stack(
-              children: [
-                const Icon(Icons.notifications_outlined),
-                if (homeState.hasUnreadNotifications)
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: Container(
-                      width: 12,
-                      height: 12,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.error,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            onPressed: () => Navigator.pushNamed(context, '/notifications'),
-          ),
-        ],
       ),
       body: RefreshIndicatorCustom(
         onRefresh: () => ref.read(homeViewModelProvider.notifier).refresh(),
