@@ -2,7 +2,7 @@
 
 # Nibaron - ClimateAI for Farmers
 
-  <img src="assets/images/logo/nibaron_logo.png" alt="Nibaron Logo" width="200"/>
+  <img src="nibaron/assets/images/nibaron_icon.png" alt="Nibaron Logo" width="200"/>
   
   ### Predict. Prevent. Protect.
   
