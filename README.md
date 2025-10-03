@@ -1,9 +1,8 @@
 <div align="center">
 
-# Nibaron - ClimateAI for Farmers
+<img src="nibaron/assets/images/nibaron_icon.png" alt="Nibaron Logo" width="200"/>
 
-  <img src="nibaron/assets/images/nibaron_icon.png" alt="Nibaron Logo" width="200"/>
-  
+# Nibaron - ClimateAI for Farmers
   ### Predict. Prevent. Protect.
   
   *Smart Climate Intelligence Platform for Bangladeshi Farmers*
