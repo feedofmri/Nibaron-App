@@ -507,29 +507,6 @@ We welcome contributions from the community! Please see our [Contributing Guidel
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 📞 Support & Contact
-
-### For Farmers
-- **Hotline**: +880-XXX-XXXXXX
-- **Email**: support@nibaron.com
-- **WhatsApp**: +880-XXX-XXXXXX
-
-### For Developers
-- **GitHub Issues**: [Report bugs or request features](https://github.com/your-org/nibaron-app/issues)
-- **Developer Email**: dev@nibaron.com
-- **Documentation**: [Developer Wiki](https://github.com/your-org/nibaron-app/wiki)
-
-### For Business Partnerships
-- **Business Email**: business@nibaron.com
-- **LinkedIn**: [Nibaron Official](https://linkedin.com/company/nibaron)
-
----
 
 ## 🙏 Acknowledgments
 
